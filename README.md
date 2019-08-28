@@ -1,4 +1,4 @@
-# OnTheMap
+# On The Map
 
 This project is part of the [Udacity iOS Developer Nanodegree](https://www.udacity.com/course/ios-developer-nanodegree--nd003).
 
