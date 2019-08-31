@@ -89,8 +89,8 @@
 			children = (
 				631B7C952316E7D900C25525 /* LaunchScreen.storyboard */,
 				631B7C8C2316E7D700C25525 /* AppDelegate.swift */,
-				631B7C932316E7D900C25525 /* Assets.xcassets */,
 				631B7C982316E7D900C25525 /* Info.plist */,
+				631B7C932316E7D900C25525 /* Assets.xcassets */,
 			);
 			path = Support;
 			sourceTree = "<group>";
