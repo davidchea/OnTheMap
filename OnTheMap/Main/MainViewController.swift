@@ -16,12 +16,17 @@ class MainViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signUpTextView: UITextView!
     
+    // MARK: Properties
+    
+    var isKeyboardShown = false
+    
     // MARK: Life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setSignUpTextView()
+        setTapGestureRecognizer()
         subscribeToKeyboardNotifications()
     }
     
@@ -29,7 +34,19 @@ class MainViewController: UIViewController {
     
     /// Check email and password with Udacity API then log in.
     @IBAction func logIn(_ sender: Any) {
-        // Get endpoint and create the request
+        let email = emailTextField.text!
+        let password = passwordTextField.text!
+        
+        // Display an alert if email and/or password text fields are empty
+        guard !email.isEmpty, !password.isEmpty else {
+            let alertController = UIAlertController(title: "Empty field", message: "Please fill email and password fields.", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alertController, animated: true, completion: nil)
+            
+            return
+        }
+        
+        // Get the session endpoint and create the request
         var request = URLRequest(url: UdacityAPI.Endpoint.session.url)
         
         // Set values to the request
@@ -38,7 +55,7 @@ class MainViewController: UIViewController {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         // Set email and password to the request
-        let login = Login(username: emailTextField.text!, password: passwordTextField.text!)
+        let login = Login(username: email, password: password)
         let udacity = Udacity(udacity: login)
         let udacityJson = try! JSONEncoder().encode(udacity)
         request.httpBody = udacityJson
@@ -51,9 +68,14 @@ class MainViewController: UIViewController {
             let newData = data.subdata(in: 5..<data.count)
             let dataJson = try! JSONSerialization.jsonObject(with: newData, options: []) as! [String: Any]
             
-            if (dataJson["error"] == nil) {
-                DispatchQueue.main.async {
+            // Display an alert if email and/or password are incorrect
+            DispatchQueue.main.async {
+                if (dataJson["error"] == nil) {
                     self.performSegue(withIdentifier: "successfulLogin", sender: nil)
+                } else {
+                    let alertController = UIAlertController(title: "Login failed", message: "Incorrect email and/or password.", preferredStyle: .alert)
+                    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alertController, animated: true, completion: nil)
                 }
             }
         }
@@ -64,8 +86,13 @@ class MainViewController: UIViewController {
     
     /// Set the sign up link and center the text view.
     func setSignUpTextView() {
-        let attributedString = NSMutableAttributedString(string: signUpTextView.text!)
-        let url = URL(string: "https://auth.udacity.com/sign-up?next=https://classroom.udacity.com/authenticated")!
+        guard
+            let signUpText = signUpTextView.text,
+            let url = URL(string: "https://auth.udacity.com/sign-up?next=https://classroom.udacity.com/authenticated") else {
+                return
+            }
+        
+        let attributedString = NSMutableAttributedString(string: signUpText)
     
         // Set the "Sign up." substring to be the link
         attributedString.setAttributes([.link: url], range: NSMakeRange(23, 8))
@@ -74,26 +101,43 @@ class MainViewController: UIViewController {
         signUpTextView.textAlignment = NSTextAlignment.center
     }
     
+    /// Hide the keyboard when the user taps outside of a text field.
+    func setTapGestureRecognizer() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard(_:)))
+        view.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    /// Release text fields focus so the keyboard will be hidden.
+    @objc func hideKeyboard (_ sender: UITapGestureRecognizer) {
+        emailTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+    }
+    
     /// Subscribe to keyboard notifications.
     func subscribeToKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    /// Move the view when email or password text field is touched.
-    @objc func keyboardWillShow(_ notification: Notification) {
-        view.frame.origin.y -= getKeyboardHeight(notification)
+    /// Move the view when email or password text field is tapped.
+    @objc func keyboardWillShow(_ sender: Notification) {
+        guard !isKeyboardShown else { return }
+        
+        view.frame.origin.y -= getKeyboardHeight(notification: sender)
+        isKeyboardShown = true
     }
     
     /// Set the view to its original position.
-    @objc func keyboardWillHide(_ notification: Notification) {
+    @objc func keyboardWillHide(_ sender: Notification) {
         view.frame.origin.y = 0
+        isKeyboardShown = false
     }
     
     /// Get keyboard height in order to move the view.
-    func getKeyboardHeight(_ notification: Notification) -> CGFloat {
-        let userInfo = notification.userInfo
-        let keyboardSize = userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
+    func getKeyboardHeight(notification: Notification) -> CGFloat {
+        guard let userInfo = notification.userInfo else { return 0 }
+        
+        let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
         
         return keyboardSize.cgRectValue.height
     }
