@@ -27,25 +27,34 @@ class MainViewController: UIViewController {
     
     // MARK: Actions
     
+    /// Check email and password with Udacity API then log in.
     @IBAction func logIn(_ sender: Any) {
-        var request = URLRequest(url: URL(string: "https://onthemap-api.udacity.com/v1/session")!)
+        // Get endpoint and create the request
+        var request = URLRequest(url: UdacityAPI.Endpoint.session.url)
+        
+        // Set values to the request
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
+        // Set email and password to the request
         let login = Login(username: emailTextField.text!, password: passwordTextField.text!)
         let udacity = Udacity(udacity: login)
         let udacityJson = try! JSONEncoder().encode(udacity)
         request.httpBody = udacityJson
         
-        let session = URLSession.shared
-        let task = session.dataTask(with: request) { data, response, error in
-            if error != nil {
-                return
-            }
+        // Check if it is correct email and password then log in
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else { return }
             
-            DispatchQueue.main.async {
-                self.performSegue(withIdentifier: "successfulLogin", sender: nil)
+            // The first five characters are used for security purpose, need to skip them
+            let newData = data.subdata(in: 5..<data.count)
+            let dataJson = try! JSONSerialization.jsonObject(with: newData, options: []) as! [String: Any]
+            
+            if (dataJson["error"] == nil) {
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "successfulLogin", sender: nil)
+                }
             }
         }
         task.resume()
@@ -65,19 +74,23 @@ class MainViewController: UIViewController {
         signUpTextView.textAlignment = NSTextAlignment.center
     }
     
+    /// Subscribe to keyboard notifications.
     func subscribeToKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+    /// Move the view when email or password text field is touched.
     @objc func keyboardWillShow(_ notification: Notification) {
         view.frame.origin.y -= getKeyboardHeight(notification)
     }
     
+    /// Set the view to its original position.
     @objc func keyboardWillHide(_ notification: Notification) {
         view.frame.origin.y = 0
     }
     
+    /// Get keyboard height in order to move the view.
     func getKeyboardHeight(_ notification: Notification) -> CGFloat {
         let userInfo = notification.userInfo
         let keyboardSize = userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
