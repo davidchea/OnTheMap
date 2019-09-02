@@ -15,6 +15,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signUpTextView: UITextView!
+    @IBOutlet weak var loginActivityIndicatorView: UIActivityIndicatorView!
     
     // MARK: Properties
     
@@ -34,17 +35,19 @@ class MainViewController: UIViewController {
     
     /// Check email and password with Udacity API then log in.
     @IBAction func logIn(_ sender: Any) {
-        let email = emailTextField.text!
-        let password = passwordTextField.text!
-        
         // Display an alert if email and/or password text fields are empty
-        guard !email.isEmpty, !password.isEmpty else {
-            let alertController = UIAlertController(title: "Empty field", message: "Please fill email and password fields.", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(alertController, animated: true, completion: nil)
+        guard
+            let email = emailTextField.text,
+            let password = passwordTextField.text,
+            !email.isEmpty,
+            !password.isEmpty
+        else {
+            displayAlert(title: "Empty field", message: "Please fill email and password fields.")
             
             return
         }
+        
+        loggingIn(true)
         
         // Get the session endpoint and create the request
         var request = URLRequest(url: UdacityAPI.Endpoint.session.url)
@@ -73,10 +76,10 @@ class MainViewController: UIViewController {
                 if (dataJson["error"] == nil) {
                     self.performSegue(withIdentifier: "successfulLogin", sender: nil)
                 } else {
-                    let alertController = UIAlertController(title: "Login failed", message: "Incorrect email and/or password.", preferredStyle: .alert)
-                    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                    self.present(alertController, animated: true, completion: nil)
+                    self.displayAlert(title: "Login failed", message: "Incorrect email and/or password.")
                 }
+                
+                self.loggingIn(false)
             }
         }
         task.resume()
@@ -88,9 +91,8 @@ class MainViewController: UIViewController {
     func setSignUpTextView() {
         guard
             let signUpText = signUpTextView.text,
-            let url = URL(string: "https://auth.udacity.com/sign-up?next=https://classroom.udacity.com/authenticated") else {
-                return
-            }
+            let url = URL(string: "https://auth.udacity.com/sign-up?next=https://classroom.udacity.com/authenticated")
+        else { return }
         
         let attributedString = NSMutableAttributedString(string: signUpText)
     
@@ -119,7 +121,7 @@ class MainViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    /// Move the view when email or password text field is tapped.
+    /// Move the view to the top when email or password text field is tapped.
     @objc func keyboardWillShow(_ sender: Notification) {
         guard !isKeyboardShown else { return }
         
@@ -133,12 +135,34 @@ class MainViewController: UIViewController {
         isKeyboardShown = false
     }
     
-    /// Get keyboard height in order to move the view.
+    /**
+     Get the keyboard height in order to move the view to the top by 75% of the keyboard height.
+     
+     - Parameter notification: A container for information broadcast through a notification center to all registered observers.
+     
+     - Returns: 75% of the keyboard height.
+     */
     func getKeyboardHeight(notification: Notification) -> CGFloat {
         guard let userInfo = notification.userInfo else { return 0 }
         
         let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
         
-        return keyboardSize.cgRectValue.height
+        return keyboardSize.cgRectValue.height * 0.75
+    }
+    
+    /// Display a custom alert box.
+    func displayAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    /// Start or stop animating the activity indicator view when the login is processing or has finished to process.
+    func loggingIn(_ loggingIn: Bool) {
+        if loggingIn {
+            loginActivityIndicatorView.startAnimating()
+        } else {
+            loginActivityIndicatorView.stopAnimating()
+        }
     }
 }

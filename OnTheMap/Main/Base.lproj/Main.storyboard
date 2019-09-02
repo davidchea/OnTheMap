@@ -19,25 +19,32 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="176" translatesAutoresizingMaskIntoConstraints="NO" id="Fy1-vV-yAV" userLabel="Main Stack View">
-                                <rect key="frame" x="20" y="251" width="374" height="394"/>
+                                <rect key="frame" x="20" y="235.5" width="374" height="425"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-u" translatesAutoresizingMaskIntoConstraints="NO" id="p8g-dR-T69">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-u" translatesAutoresizingMaskIntoConstraints="NO" id="p8g-dR-T69" userLabel="Logo">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="62"/>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="wXO-44-4Te" userLabel="Login Stack View">
-                                        <rect key="frame" x="0.0" y="238" width="374" height="156"/>
+                                        <rect key="frame" x="0.0" y="238" width="374" height="187"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fBg-nq-Fwk">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" textContentType="email"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="BYZ-38-t0r" id="ZNJ-hP-a7n"/>
+                                                </connections>
                                             </textField>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="o9c-IN-pGe">
+                                            <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="o9c-IN-pGe">
                                                 <rect key="frame" x="0.0" y="41" width="374" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                                                <connections>
+                                                    <action selector="logIn:" destination="BYZ-38-t0r" eventType="editingDidEndOnExit" id="zbI-lP-KpN"/>
+                                                    <outlet property="delegate" destination="BYZ-38-t0r" id="aeb-7c-b6y"/>
+                                                </connections>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9p-BM-cXE">
                                                 <rect key="frame" x="0.0" y="82" width="374" height="30"/>
@@ -61,6 +68,9 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                                             </textView>
+                                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="mhb-gp-F8i">
+                                                <rect key="frame" x="0.0" y="167" width="374" height="20"/>
+                                            </activityIndicatorView>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -80,6 +90,7 @@
                     </view>
                     <connections>
                         <outlet property="emailTextField" destination="fBg-nq-Fwk" id="aPq-Er-I5s"/>
+                        <outlet property="loginActivityIndicatorView" destination="mhb-gp-F8i" id="qU8-Rv-G85"/>
                         <outlet property="passwordTextField" destination="o9c-IN-pGe" id="w6u-ql-75G"/>
                         <outlet property="signUpTextView" destination="rXz-Mw-rNZ" id="Mpq-cx-SQ0"/>
                         <segue destination="zW9-rE-wlQ" kind="show" identifier="successfulLogin" id="3pc-zp-8iQ"/>
