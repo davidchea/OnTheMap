@@ -11,10 +11,55 @@ import Foundation
 class UdacityAPI {
     
     enum Endpoint: String {
-        case session = "https://onthemap-api.udacity.com/v1/session"
+        static let base = "https://onthemap-api.udacity.com/v1/"
+        
+        case session, studentLocation
+        
+        var stringValue: String {
+            switch self {
+            case .session:
+                return "\(Endpoint.base)session"
+            case .studentLocation:
+                return "\(Endpoint.base)StudentLocation"
+            }
+        }
         
         var url: URL {
-            return URL(string: self.rawValue)!
+            return URL(string: stringValue)!
         }
+    }
+    
+    static func createSession(email: String, password: String, completion: @escaping (Bool) -> Void) {
+        // Get the session endpoint and create the request
+        var request = URLRequest(url: Endpoint.session.url)
+        
+        // Set values to the request
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Set email and password to the request
+        let login = Login(username: email, password: password)
+        let udacity = Udacity(udacity: login)
+        let udacityJson = try! JSONEncoder().encode(udacity)
+        request.httpBody = udacityJson
+        
+        // Check if it is correct email and password then log in
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else { return }
+            
+            // The first five characters are used for security purpose, need to skip them
+            let newData = data.subdata(in: 5..<data.count)
+            let dataJson = try! JSONSerialization.jsonObject(with: newData, options: []) as! [String: Any]
+            
+            DispatchQueue.main.async {
+                if (dataJson["error"] == nil) {
+                    completion(true)
+                } else {
+                    completion(false)
+                }
+            }
+        }
+        task.resume()
     }
 }

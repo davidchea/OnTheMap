@@ -43,41 +43,8 @@ class MainViewController: UIViewController {
         }
         
         loggingIn(true)
-        
-        // Get the session endpoint and create the request
-        var request = URLRequest(url: UdacityAPI.Endpoint.session.url)
-        
-        // Set values to the request
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        // Set email and password to the request
-        let login = Login(username: email, password: password)
-        let udacity = Udacity(udacity: login)
-        let udacityJson = try! JSONEncoder().encode(udacity)
-        request.httpBody = udacityJson
-        
-        // Check if it is correct email and password then log in
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data else { return }
-            
-            // The first five characters are used for security purpose, need to skip them
-            let newData = data.subdata(in: 5..<data.count)
-            let dataJson = try! JSONSerialization.jsonObject(with: newData, options: []) as! [String: Any]
-            
-            // Display an alert if email and/or password are incorrect
-            DispatchQueue.main.async {
-                if (dataJson["error"] == nil) {
-                    self.performSegue(withIdentifier: "successfulLogin", sender: nil)
-                } else {
-                    self.displayAlert(title: "Login failed", message: "Incorrect email and/or password.")
-                }
-                
-                self.loggingIn(false)
-            }
-        }
-        task.resume()
+        UdacityAPI.createSession(email: email, password: password, completion: handleSessionResponse(success:))
+        loggingIn(false)
     }
     
     // MARK: Methods
@@ -115,6 +82,16 @@ class MainViewController: UIViewController {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alertController, animated: true, completion: nil)
+    }
+    
+    func handleSessionResponse(success: Bool) {
+        if success {
+            self.performSegue(withIdentifier: "successfulLogin", sender: nil)
+            self.emailTextField.text = ""
+            self.passwordTextField.text = ""
+        } else {
+            self.displayAlert(title: "Login failed", message: "Incorrect email and/or password.")
+        }
     }
     
     /// Start or stop animating the activity indicator view when the login is processing or has finished to process.

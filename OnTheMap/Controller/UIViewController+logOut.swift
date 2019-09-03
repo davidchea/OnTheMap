@@ -10,5 +10,10 @@ import UIKit
 
 extension UIViewController {
     
-    @IBAction func logOut(_ sender: Any) {}
+    // MARK: Actions
+    
+    /// Go to login screen.
+    @IBAction func logOut(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
 }
