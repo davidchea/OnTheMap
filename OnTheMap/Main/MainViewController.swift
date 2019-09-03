@@ -17,10 +17,6 @@ class MainViewController: UIViewController {
     @IBOutlet weak var signUpTextView: UITextView!
     @IBOutlet weak var loginActivityIndicatorView: UIActivityIndicatorView!
     
-    // MARK: Properties
-    
-    var isKeyboardShown = false
-    
     // MARK: Life cycle
     
     override func viewDidLoad() {
@@ -28,7 +24,6 @@ class MainViewController: UIViewController {
         
         setSignUpTextView()
         setTapGestureRecognizer()
-        subscribeToKeyboardNotifications()
     }
     
     // MARK: Actions
@@ -113,41 +108,6 @@ class MainViewController: UIViewController {
     @objc func hideKeyboard (_ sender: UITapGestureRecognizer) {
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
-    }
-    
-    /// Subscribe to keyboard notifications.
-    func subscribeToKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    /// Move the view to the top when email or password text field is tapped.
-    @objc func keyboardWillShow(_ sender: Notification) {
-        guard !isKeyboardShown else { return }
-        
-        view.frame.origin.y -= getKeyboardHeight(notification: sender)
-        isKeyboardShown = true
-    }
-    
-    /// Set the view to its original position.
-    @objc func keyboardWillHide(_ sender: Notification) {
-        view.frame.origin.y = 0
-        isKeyboardShown = false
-    }
-    
-    /**
-     Get the keyboard height in order to move the view to the top by 75% of the keyboard height.
-     
-     - Parameter notification: A container for information broadcast through a notification center to all registered observers.
-     
-     - Returns: 75% of the keyboard height.
-     */
-    func getKeyboardHeight(notification: Notification) -> CGFloat {
-        guard let userInfo = notification.userInfo else { return 0 }
-        
-        let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
-        
-        return keyboardSize.cgRectValue.height * 0.75
     }
     
     /// Display a custom alert box.
