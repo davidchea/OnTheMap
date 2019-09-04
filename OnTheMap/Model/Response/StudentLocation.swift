@@ -6,7 +6,7 @@
 //  Copyright © 2019 David Chea. All rights reserved.
 //
 
-struct StudentLocation {
+struct StudentLocation: Codable {
     
     let objectId: String
     let uniqueKey: String

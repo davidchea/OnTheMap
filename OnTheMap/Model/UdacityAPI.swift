@@ -10,10 +10,15 @@ import Foundation
 
 class UdacityAPI {
     
+    /// Log in to Udacity and get/add/update `StudentLocation`.
     enum Endpoint: String {
         static let base = "https://onthemap-api.udacity.com/v1/"
         
-        case session, studentLocation
+        /// Log in.
+        case session
+        
+        /// Get/add/update `StudentLocation`.
+        case studentLocation
         
         var stringValue: String {
             switch self {
@@ -28,8 +33,15 @@ class UdacityAPI {
             return URL(string: stringValue)!
         }
     }
+    /**
+     Create a session to use the app.
     
-    static func createSession(email: String, password: String, completion: @escaping (Bool) -> Void) {
+     - Parameters:
+        - email: The email.
+        - password: The password.
+        - completion: The closure in which the response (a dictionary) will be handled.
+     */
+    static func createSession(email: String, password: String, completion: @escaping ([String: Any]) -> Void) {
         // Get the session endpoint and create the request
         var request = URLRequest(url: Endpoint.session.url)
         
@@ -51,14 +63,25 @@ class UdacityAPI {
             // The first five characters are used for security purpose, need to skip them
             let newData = data.subdata(in: 5..<data.count)
             let dataJson = try! JSONSerialization.jsonObject(with: newData, options: []) as! [String: Any]
+            DispatchQueue.main.async { completion(dataJson) }
+        }
+        task.resume()
+    }
+    
+    /**
+     Get the most recent hundred `StudentLocation`.
+     
+     - Parameter completion: The closure in which the response (a `Codable`) will be handled.
+     */
+    static func getStudentLocationData(completion: @escaping (Results) -> Void) {
+        let request = URLRequest(url: Endpoint.studentLocation.url)
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else { return }
             
-            DispatchQueue.main.async {
-                if (dataJson["error"] == nil) {
-                    completion(true)
-                } else {
-                    completion(false)
-                }
-            }
+            // Decode the response to a Codable object
+            let dataCodable = try! JSONDecoder().decode(Results.self, from: data)
+            DispatchQueue.main.async { completion(dataCodable) }
         }
         task.resume()
     }

@@ -16,4 +16,15 @@ extension UIViewController {
     @IBAction func logOut(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    
+    // MARK: Methods
+    
+    /// Configure the activity indicator view.
+    func loading(_ loading: Bool, activityIndicatorView: UIActivityIndicatorView) {
+        if loading {
+            activityIndicatorView.startAnimating()
+        } else {
+            activityIndicatorView.stopAnimating()
+        }
+    }
 }

@@ -28,7 +28,7 @@ class MainViewController: UIViewController {
     
     // MARK: Actions
     
-    /// Check email and password with Udacity API then log in.
+    /// Check email and password with Udacity API, then log in.
     @IBAction func logIn(_ sender: Any) {
         // Display an alert if email and/or password text fields are empty
         guard
@@ -42,9 +42,8 @@ class MainViewController: UIViewController {
             return
         }
         
-        loggingIn(true)
-        UdacityAPI.createSession(email: email, password: password, completion: handleSessionResponse(success:))
-        loggingIn(false)
+        loading(true, activityIndicatorView: loginActivityIndicatorView)
+        UdacityAPI.createSession(email: email, password: password, completion: handleSessionResponse(jsonData:))
     }
     
     // MARK: Methods
@@ -77,29 +76,33 @@ class MainViewController: UIViewController {
         passwordTextField.resignFirstResponder()
     }
     
-    /// Display a custom alert box.
+    /**
+     Display a custom alert box.
+     
+     - Parameters:
+        - title: The alert box title.
+        - message: The alert box message.
+     */
     func displayAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alertController, animated: true, completion: nil)
     }
     
-    func handleSessionResponse(success: Bool) {
-        if success {
+    /**
+     Go to `MapViewController` if login was successful or display an alert box if not.
+     
+     - Parameter jsonData: The JSON response send by the Udacity API call to log in.
+     */
+    func handleSessionResponse(jsonData: [String: Any]) {
+        loading(false, activityIndicatorView: loginActivityIndicatorView)
+        
+        if jsonData["error"] == nil {
             self.performSegue(withIdentifier: "successfulLogin", sender: nil)
             self.emailTextField.text = ""
             self.passwordTextField.text = ""
         } else {
             self.displayAlert(title: "Login failed", message: "Incorrect email and/or password.")
-        }
-    }
-    
-    /// Start or stop animating the activity indicator view when the login is processing or has finished to process.
-    func loggingIn(_ loggingIn: Bool) {
-        if loggingIn {
-            loginActivityIndicatorView.startAnimating()
-        } else {
-            loginActivityIndicatorView.stopAnimating()
         }
     }
 }

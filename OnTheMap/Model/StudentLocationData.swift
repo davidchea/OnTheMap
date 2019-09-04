@@ -8,5 +8,5 @@
 
 class StudentLocationData {
     
-    static var StudentLocationArray = [StudentLocation]()
+    static var studentLocationData = [StudentLocation]()
 }
