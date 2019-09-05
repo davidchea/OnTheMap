@@ -24,12 +24,25 @@ class StudentLocationTableViewController: UIViewController {
         UdacityAPI.getStudentLocationData(completion: fillStudentLocationData(dataCodable:))
     }
     
+    // MARK: Actions
+    
+    /// Refresh the `StudentLocation` list.
+    @IBAction func refresh(_ sender: UIBarButtonItem) {
+        // Clear all data
+        StudentLocationData.studentLocationData.removeAll()
+        studentLocationTableView.reloadData()
+        
+        // Set new data
+        loading(true, activityIndicatorView: studentLocationTableActivityIndicatorView)
+        UdacityAPI.getStudentLocationData(completion: fillStudentLocationData(dataCodable:))
+    }
+    
     // MARK: Methods
     
     /**
      Fill the `StudentLocation` array.
      
-     - Parameter dataCodable: The data send by the Udacity API to get the most recent hundred `StudentLocation`.
+     - Parameter dataCodable: The data send by the Udacity API to get the most recent 100 `StudentLocation`.
      */
     func fillStudentLocationData(dataCodable: Results) {
         loading(false, activityIndicatorView: studentLocationTableActivityIndicatorView)

@@ -12,8 +12,8 @@ extension UIViewController {
     
     // MARK: Actions
     
-    /// Go to login screen.
-    @IBAction func logOut(_ sender: Any) {
+    /// Back to previous screen.
+    @IBAction func dismiss(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
     

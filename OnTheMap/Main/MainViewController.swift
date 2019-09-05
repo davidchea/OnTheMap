@@ -29,7 +29,7 @@ class MainViewController: UIViewController {
     // MARK: Actions
     
     /// Check email and password with Udacity API, then log in.
-    @IBAction func logIn(_ sender: Any) {
+    @IBAction func logIn(_ sender: UIButton) {
         // Display an alert if email and/or password text fields are empty
         guard
             let email = emailTextField.text,
@@ -76,13 +76,7 @@ class MainViewController: UIViewController {
         passwordTextField.resignFirstResponder()
     }
     
-    /**
-     Display a custom alert box.
-     
-     - Parameters:
-        - title: The alert box title.
-        - message: The alert box message.
-     */
+    /// Display a custom alert box.
     func displayAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -92,7 +86,7 @@ class MainViewController: UIViewController {
     /**
      Go to `MapViewController` if login was successful or display an alert box if not.
      
-     - Parameter jsonData: The JSON response send by the Udacity API call to log in.
+     - Parameter jsonData: The JSON response send by the Udacity API to log in.
      */
     func handleSessionResponse(jsonData: [String: Any]) {
         loading(false, activityIndicatorView: loginActivityIndicatorView)

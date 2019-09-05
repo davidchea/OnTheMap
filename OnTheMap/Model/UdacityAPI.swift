@@ -33,6 +33,7 @@ class UdacityAPI {
             return URL(string: stringValue)!
         }
     }
+    
     /**
      Create a session to use the app.
     
@@ -69,7 +70,7 @@ class UdacityAPI {
     }
     
     /**
-     Get the most recent hundred `StudentLocation`.
+     Get the most recent 100 `StudentLocation`.
      
      - Parameter completion: The closure in which the response (a `Codable`) will be handled.
      */
