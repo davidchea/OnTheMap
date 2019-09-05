@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  OnTheMap
 //
 //  Created by David Chea on 28/08/2019.
@@ -42,7 +42,7 @@ class MainViewController: UIViewController {
             return
         }
         
-        loading(true, activityIndicatorView: loginActivityIndicatorView)
+        loginActivityIndicatorView.startAnimating()
         UdacityAPI.createSession(email: email, password: password, completion: handleSessionResponse(jsonData:))
     }
     
@@ -89,7 +89,7 @@ class MainViewController: UIViewController {
      - Parameter jsonData: The JSON response send by the Udacity API to log in.
      */
     func handleSessionResponse(jsonData: [String: Any]) {
-        loading(false, activityIndicatorView: loginActivityIndicatorView)
+        loginActivityIndicatorView.stopAnimating()
         
         if jsonData["error"] == nil {
             self.performSegue(withIdentifier: "successfulLogin", sender: nil)

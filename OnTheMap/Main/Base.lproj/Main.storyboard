@@ -19,13 +19,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="76" translatesAutoresizingMaskIntoConstraints="NO" id="Fy1-vV-yAV" userLabel="Main Stack View">
-                                <rect key="frame" x="20" y="246" width="374" height="294"/>
+                                <rect key="frame" x="20" y="269" width="374" height="248"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-u" translatesAutoresizingMaskIntoConstraints="NO" id="p8g-dR-T69" userLabel="Logo">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="62"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="16"/>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="wXO-44-4Te" userLabel="Login Stack View">
-                                        <rect key="frame" x="0.0" y="138" width="374" height="156"/>
+                                        <rect key="frame" x="0.0" y="92" width="374" height="156"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fBg-nq-Fwk">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
@@ -146,13 +146,29 @@
                     <view key="view" contentMode="scaleToFill" id="TMP-1S-Mk0">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Oy7-jz-KFQ">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                            </mapView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="o4f-wk-mUr">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Oy7-jz-KFQ" firstAttribute="top" secondItem="Ac8-yX-O6N" secondAttribute="top" id="P6i-FB-vMf"/>
+                            <constraint firstItem="Oy7-jz-KFQ" firstAttribute="leading" secondItem="Ac8-yX-O6N" secondAttribute="leading" id="XDB-ij-33w"/>
+                            <constraint firstItem="o4f-wk-mUr" firstAttribute="centerX" secondItem="TMP-1S-Mk0" secondAttribute="centerX" id="nl0-Rg-vd2"/>
+                            <constraint firstItem="o4f-wk-mUr" firstAttribute="centerY" secondItem="TMP-1S-Mk0" secondAttribute="centerY" id="t2b-Oy-3GX"/>
+                            <constraint firstItem="Ac8-yX-O6N" firstAttribute="bottom" secondItem="Oy7-jz-KFQ" secondAttribute="bottom" id="uFN-aw-yFy"/>
+                            <constraint firstItem="Ac8-yX-O6N" firstAttribute="trailing" secondItem="Oy7-jz-KFQ" secondAttribute="trailing" id="wrh-QV-Mc8"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Ac8-yX-O6N"/>
                     </view>
                     <navigationItem key="navigationItem" title="On The Map" id="QAh-HY-smw">
                         <barButtonItem key="leftBarButtonItem" title="Log Out" id="Jv2-yw-gV7">
                             <connections>
-                                <action selector="logOut:" destination="3Wg-qZ-fjm" id="sJl-P3-v7W"/>
+                                <action selector="dismiss:" destination="3Wg-qZ-fjm" id="6Qx-t7-d3b"/>
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
@@ -161,13 +177,21 @@
                                     <segue destination="rU6-n3-8uY" kind="presentation" id="YVr-rX-cDw"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem systemItem="refresh" id="j7Y-od-aHg"/>
+                            <barButtonItem systemItem="refresh" id="j7Y-od-aHg">
+                                <connections>
+                                    <action selector="refresh:" destination="3Wg-qZ-fjm" id="n2S-Ze-6Nm"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
+                    <connections>
+                        <outlet property="mapActivityIndicatorView" destination="o4f-wk-mUr" id="lRK-Ca-JuT"/>
+                        <outlet property="studentLocationMapView" destination="Oy7-jz-KFQ" id="B6k-cx-q6i"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RY2-UN-zwV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2459" y="-335"/>
+            <point key="canvasLocation" x="2457.971014492754" y="-335.49107142857139"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="E4i-27-GA2">
@@ -191,7 +215,7 @@
         <!--On The Map-->
         <scene sceneID="lID-SN-AEn">
             <objects>
-                <viewController id="m8R-Rw-JM5" customClass="StudentLocationTableViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="m8R-Rw-JM5" customClass="TableViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8py-Ze-A3V">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -252,7 +276,7 @@
                     <navigationItem key="navigationItem" title="On The Map" id="CsL-Ge-STx">
                         <barButtonItem key="leftBarButtonItem" title="Log Out" id="V4N-cJ-iXI">
                             <connections>
-                                <action selector="logOut:" destination="m8R-Rw-JM5" id="86s-ca-TnV"/>
+                                <action selector="dismiss:" destination="m8R-Rw-JM5" id="t9h-8x-c8f"/>
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
@@ -269,8 +293,8 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
-                        <outlet property="studentLocationTableActivityIndicatorView" destination="h1v-P2-Fxq" id="rQg-ch-60N"/>
                         <outlet property="studentLocationTableView" destination="3WZ-wy-mA9" id="bEh-tW-2KO"/>
+                        <outlet property="tableActivityIndicatorView" destination="h1v-P2-Fxq" id="MkO-FM-Bvf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dYJ-wZ-R5G" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -289,13 +313,13 @@
                                 <rect key="frame" x="197" y="438" width="20" height="20"/>
                             </activityIndicatorView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="34" translatesAutoresizingMaskIntoConstraints="NO" id="tcK-Ik-9Y6" userLabel="Main Stack View">
-                                <rect key="frame" x="20" y="286.5" width="374" height="213"/>
+                                <rect key="frame" x="20" y="312" width="374" height="162"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_world" translatesAutoresizingMaskIntoConstraints="NO" id="oJb-SP-QGd" userLabel="Logo">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="67"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="16"/>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="gPV-Kw-MAN" userLabel="Login Stack View">
-                                        <rect key="frame" x="0.0" y="101" width="374" height="112"/>
+                                        <rect key="frame" x="0.0" y="50" width="374" height="112"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Location" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="W5v-BQ-GHg">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>

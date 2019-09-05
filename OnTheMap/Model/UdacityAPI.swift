@@ -10,15 +10,10 @@ import Foundation
 
 class UdacityAPI {
     
-    /// Log in to Udacity and get/add/update `StudentLocation`.
     enum Endpoint: String {
         static let base = "https://onthemap-api.udacity.com/v1/"
         
-        /// Log in.
-        case session
-        
-        /// Get/add/update `StudentLocation`.
-        case studentLocation
+        case session, studentLocation
         
         var stringValue: String {
             switch self {
@@ -74,7 +69,7 @@ class UdacityAPI {
      
      - Parameter completion: The closure in which the response (a `Codable`) will be handled.
      */
-    static func getStudentLocationData(completion: @escaping (Results) -> Void) {
+    static func getAllStudentLocation(completion: @escaping (Results) -> Void) {
         let request = URLRequest(url: Endpoint.studentLocation.url)
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
