@@ -15,6 +15,16 @@ class AddViewController: UIViewController {
     
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var urlTextField: UITextField!
+    @IBOutlet weak var addLoginIndicatorView: UIActivityIndicatorView!
+    
+    // MARK: Inherited methods
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let confirmViewController = segue.destination as! ConfirmViewController
+        confirmViewController.location = locationTextField.text
+        confirmViewController.url = urlTextField.text
+        confirmViewController.coordinate = sender as? CLLocationCoordinate2D
+    }
     
     // MARK: Actions
     
@@ -22,17 +32,28 @@ class AddViewController: UIViewController {
         let location = locationTextField.text!
         let url = urlTextField.text!
         
-        if location.isEmpty && url.isEmpty {
+        guard !location.isEmpty, !url.isEmpty else {
             displayAlert(title: "Empty field", message: "Please fill location and URL fields.")
-        } else {
-            CLGeocoder().geocodeAddressString(location, completionHandler: handleGeocodeAddressString(placemarks:error:))
+            
+            return
         }
+        
+        addLoginIndicatorView.startAnimating()
+        CLGeocoder().geocodeAddressString(location, completionHandler: handleGeocodeAddressString(placemarks:error:))
     }
     
     // MARK: Methods
     
     func handleGeocodeAddressString(placemarks: [CLPlacemark]?, error: Error?) {
-        let coordinate = placemarks![0].location!.coordinate
+        addLoginIndicatorView.stopAnimating()
+        
+        guard let placemarks = placemarks else {
+            displayAlert(title: "Failed to find location", message: "Please enter a correct location.")
+            
+            return
+        }
+        
+        let coordinate = placemarks[0].location!.coordinate
         performSegue(withIdentifier: "confirmLocation", sender: coordinate)
     }
 }

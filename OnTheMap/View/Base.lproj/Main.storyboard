@@ -42,7 +42,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES" secureTextEntry="YES" textContentType="password"/>
                                                 <connections>
-                                                    <action selector="logIn:" destination="BYZ-38-t0r" eventType="editingDidEndOnExit" id="zbI-lP-KpN"/>
+                                                    <action selector="logIn" destination="BYZ-38-t0r" eventType="editingDidEndOnExit" id="Jto-X8-xbY"/>
                                                     <outlet property="delegate" destination="BYZ-38-t0r" id="aeb-7c-b6y"/>
                                                 </connections>
                                             </textField>
@@ -328,7 +328,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next" enablesReturnKeyAutomatically="YES" textContentType="email"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="next" enablesReturnKeyAutomatically="YES" textContentType="location"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="uGN-Uz-b8h" id="Jb2-Ql-3U8"/>
                                                 </connections>
@@ -337,8 +337,9 @@
                                                 <rect key="frame" x="0.0" y="41" width="374" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES" secureTextEntry="YES" textContentType="password"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES" textContentType="url"/>
                                                 <connections>
+                                                    <action selector="findLocation" destination="uGN-Uz-b8h" eventType="editingDidEndOnExit" id="TuK-2b-3pQ"/>
                                                     <outlet property="delegate" destination="uGN-Uz-b8h" id="Ec7-la-GwQ"/>
                                                 </connections>
                                             </textField>
@@ -384,6 +385,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addLoginIndicatorView" destination="p77-cg-3WQ" id="PF4-aX-2bp"/>
                         <outlet property="locationTextField" destination="W5v-BQ-GHg" id="OWe-VL-7px"/>
                         <outlet property="urlTextField" destination="MIp-an-MpQ" id="2Nf-P3-Qfv"/>
                         <segue destination="DJg-dJ-hee" kind="show" identifier="confirmLocation" id="LCJ-Ii-3m7"/>
@@ -429,6 +431,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="AXH-dD-baf"/>
                     </view>
+                    <connections>
+                        <outlet property="confirmMapView" destination="GR3-XK-WWX" id="8fd-ae-3Bn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e9n-ap-CHA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -437,7 +442,6 @@
         <!--Navigation Controller-->
         <scene sceneID="WyY-tX-g8s">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="h7C-Jx-4t7" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="rU6-n3-8uY" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="DDP-tb-XtC">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -447,6 +451,7 @@
                         <segue destination="uGN-Uz-b8h" kind="relationship" relationship="rootViewController" id="pzu-K9-5Eu"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h7C-Jx-4t7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3228" y="15"/>
         </scene>

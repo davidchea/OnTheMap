@@ -33,12 +33,14 @@ class LoginViewController: UIViewController {
         let email = emailTextField.text!
         let password = passwordTextField.text!
         
-        if email.isEmpty && password.isEmpty {
+        guard !email.isEmpty, !password.isEmpty else {
             displayAlert(title: "Empty field", message: "Please fill email and password fields.")
-        } else {
-            loginActivityIndicatorView.startAnimating()
-            UdacityAPI.createSession(email: email, password: password, completion: handleSessionResponse(jsonData:))
+            
+            return
         }
+        
+        loginActivityIndicatorView.startAnimating()
+        UdacityAPI.createSession(email: email, password: password, completion: handleSessionResponse(jsonData:))
     }
     
     // MARK: Methods
@@ -75,12 +77,14 @@ class LoginViewController: UIViewController {
     func handleSessionResponse(jsonData: [String: Any]) {
         loginActivityIndicatorView.stopAnimating()
         
-        if jsonData["error"] == nil {
-            performSegue(withIdentifier: "successfulLogin", sender: nil)
-            emailTextField.text = ""
-            passwordTextField.text = ""
-        } else {
+        guard jsonData["error"] == nil else {
             displayAlert(title: "Login failed", message: "Incorrect email and/or password.")
+            
+            return
         }
+        
+        performSegue(withIdentifier: "successfulLogin", sender: nil)
+        emailTextField.text = ""
+        passwordTextField.text = ""
     }
 }
