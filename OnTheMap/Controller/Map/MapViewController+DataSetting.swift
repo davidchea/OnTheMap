@@ -1,29 +1,10 @@
 //
-//  MapViewController.swift
+//  MapViewController+DataSetting.swift
 //  OnTheMap
 //
-//  Created by David Chea on 05/09/2019.
+//  Created by David Chea on 06/09/2019.
 //  Copyright © 2019 David Chea. All rights reserved.
 //
-
-import UIKit
-import MapKit
-
-class MapViewController: UIViewController {
-
-    @IBOutlet weak var studentLocationMapView: MKMapView!
-    @IBOutlet weak var mapActivityIndicatorView: UIActivityIndicatorView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setViewData()
-    }
-    
-    @IBAction func refresh(_ sender: UIBarButtonItem) {
-        refresh()
-    }
-}
 
 extension MapViewController: DataSetting {
     
@@ -35,7 +16,7 @@ extension MapViewController: DataSetting {
     func setViewData(dataCodable: Results) {
         mapActivityIndicatorView.stopAnimating()
         
-        StudentLocationData.setAllStudentLocation(allStudentLocation: dataCodable.results)
+        StudentLocationData.allStudentLocation = dataCodable.results
         StudentLocationData.setAllStudentLocationPointAnnotation()
         studentLocationMapView.addAnnotations(StudentLocationData.allStudentLocationPointAnnotation)
     }
@@ -47,5 +28,3 @@ extension MapViewController: DataSetting {
         setViewData()
     }
 }
-
-extension MapViewController: MKMapViewDelegate {}

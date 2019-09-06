@@ -13,10 +13,7 @@ class StudentLocationData {
     static var allStudentLocation = [StudentLocation]()
     static var allStudentLocationPointAnnotation = [MKPointAnnotation]()
     
-    static func setAllStudentLocation(allStudentLocation: [StudentLocation]) {
-        self.allStudentLocation = allStudentLocation
-    }
-    
+    /// Set `allStudentLocationPointAnnotation` using `allStudentLocation`.
     static func setAllStudentLocationPointAnnotation() {
         for studentLocation in allStudentLocation {
             let firstName = studentLocation.firstName

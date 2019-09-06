@@ -1,5 +1,5 @@
 //
-//  MainViewController+UITextFieldDelegate.swift
+//  LoginViewController+UITextFieldDelegate.swift
 //  OnTheMap
 //
 //  Created by David Chea on 02/09/2019.
@@ -8,9 +8,7 @@
 
 import UIKit
 
-extension MainViewController: UITextFieldDelegate {
-    
-    // MARK: Delegate methods
+extension LoginViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == emailTextField {

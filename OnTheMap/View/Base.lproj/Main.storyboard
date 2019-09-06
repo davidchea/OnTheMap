@@ -10,22 +10,22 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Main View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="76" translatesAutoresizingMaskIntoConstraints="NO" id="Fy1-vV-yAV" userLabel="Main Stack View">
-                                <rect key="frame" x="20" y="269" width="374" height="248"/>
+                                <rect key="frame" x="20" y="246" width="374" height="294"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-u" translatesAutoresizingMaskIntoConstraints="NO" id="p8g-dR-T69" userLabel="Logo">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="16"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image_udacity_clear" translatesAutoresizingMaskIntoConstraints="NO" id="p8g-dR-T69" userLabel="Logo">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="62"/>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="wXO-44-4Te" userLabel="Login Stack View">
-                                        <rect key="frame" x="0.0" y="92" width="374" height="156"/>
+                                        <rect key="frame" x="0.0" y="138" width="374" height="156"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fBg-nq-Fwk">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
@@ -58,7 +58,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <action selector="logIn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5gh-rE-gFI"/>
+                                                    <action selector="logIn" destination="BYZ-38-t0r" eventType="touchUpInside" id="d5i-FK-SBI"/>
                                                 </connections>
                                             </button>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Don't have an account? Sign up." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="rXz-Mw-rNZ">
@@ -124,7 +124,7 @@
         <scene sceneID="Wuj-6C-KEe">
             <objects>
                 <navigationController id="kzq-8I-ATd" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="icon_mapview-deselected" selectedImage="icon_mapview-selected" id="3ML-iJ-fYs">
+                    <tabBarItem key="tabBarItem" title="" image="icon_tab_map_deselected" selectedImage="icon_tab_map_selected" id="3ML-iJ-fYs">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="arl-sD-ak9">
@@ -149,6 +149,9 @@
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Oy7-jz-KFQ">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <connections>
+                                    <outlet property="delegate" destination="3Wg-qZ-fjm" id="bec-aj-Mob"/>
+                                </connections>
                             </mapView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="o4f-wk-mUr">
                                 <rect key="frame" x="197" y="438" width="20" height="20"/>
@@ -168,7 +171,7 @@
                     <navigationItem key="navigationItem" title="On The Map" id="QAh-HY-smw">
                         <barButtonItem key="leftBarButtonItem" title="Log Out" id="Jv2-yw-gV7">
                             <connections>
-                                <action selector="dismiss:" destination="3Wg-qZ-fjm" id="6Qx-t7-d3b"/>
+                                <action selector="dismiss" destination="3Wg-qZ-fjm" id="QjB-Jg-Ixi"/>
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
@@ -179,7 +182,7 @@
                             </barButtonItem>
                             <barButtonItem systemItem="refresh" id="j7Y-od-aHg">
                                 <connections>
-                                    <action selector="refresh:" destination="3Wg-qZ-fjm" id="n2S-Ze-6Nm"/>
+                                    <action selector="refreshAction" destination="3Wg-qZ-fjm" id="8oe-bI-BjQ"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -197,7 +200,7 @@
         <scene sceneID="E4i-27-GA2">
             <objects>
                 <navigationController id="3HS-Bp-vWJ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="icon_listview-deselected" selectedImage="icon_listview-selected" id="bXZ-b5-rQj">
+                    <tabBarItem key="tabBarItem" title="" image="icon_tab_table_deselected" selectedImage="icon_tab_table_selected" id="bXZ-b5-rQj">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="oy5-0t-cMB">
@@ -245,7 +248,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="icon_pin" id="Mub-LA-y15">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="image_pin" id="Mub-LA-y15">
                                                     <rect key="frame" x="20" y="9" width="24" height="24"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -276,7 +279,7 @@
                     <navigationItem key="navigationItem" title="On The Map" id="CsL-Ge-STx">
                         <barButtonItem key="leftBarButtonItem" title="Log Out" id="V4N-cJ-iXI">
                             <connections>
-                                <action selector="dismiss:" destination="m8R-Rw-JM5" id="t9h-8x-c8f"/>
+                                <action selector="dismiss" destination="m8R-Rw-JM5" id="T2a-LD-VZK"/>
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
@@ -287,7 +290,7 @@
                             </barButtonItem>
                             <barButtonItem systemItem="refresh" id="6NY-a8-9rI">
                                 <connections>
-                                    <action selector="refresh:" destination="m8R-Rw-JM5" id="g9N-QM-8Jc"/>
+                                    <action selector="refreshAction" destination="m8R-Rw-JM5" id="N5G-Xq-Qyr"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -304,7 +307,7 @@
         <!--Add Location-->
         <scene sceneID="UTS-59-7kl">
             <objects>
-                <viewController id="uGN-Uz-b8h" customClass="AddStudentLocationViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="uGN-Uz-b8h" customClass="AddViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xb1-3D-ioK">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -313,13 +316,13 @@
                                 <rect key="frame" x="197" y="438" width="20" height="20"/>
                             </activityIndicatorView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="34" translatesAutoresizingMaskIntoConstraints="NO" id="tcK-Ik-9Y6" userLabel="Main Stack View">
-                                <rect key="frame" x="20" y="312" width="374" height="162"/>
+                                <rect key="frame" x="20" y="286.5" width="374" height="213"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_world" translatesAutoresizingMaskIntoConstraints="NO" id="oJb-SP-QGd" userLabel="Logo">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="16"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image_world" translatesAutoresizingMaskIntoConstraints="NO" id="oJb-SP-QGd" userLabel="Logo">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="67"/>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="gPV-Kw-MAN" userLabel="Login Stack View">
-                                        <rect key="frame" x="0.0" y="50" width="374" height="112"/>
+                                        <rect key="frame" x="0.0" y="101" width="374" height="112"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Location" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="W5v-BQ-GHg">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
@@ -330,7 +333,7 @@
                                                     <outlet property="delegate" destination="uGN-Uz-b8h" id="Jb2-Ql-3U8"/>
                                                 </connections>
                                             </textField>
-                                            <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Link" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MIp-an-MpQ">
+                                            <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MIp-an-MpQ">
                                                 <rect key="frame" x="0.0" y="41" width="374" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -350,6 +353,9 @@
                                                         <integer key="value" value="5"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="findLocation" destination="uGN-Uz-b8h" eventType="touchUpInside" id="XUi-Hu-Oi9"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -373,18 +379,65 @@
                     <navigationItem key="navigationItem" title="Add Location" id="iF9-dp-09t">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="n9E-FP-8XO">
                             <connections>
-                                <action selector="logOut:" destination="uGN-Uz-b8h" id="fR8-07-qHX"/>
+                                <action selector="dismiss" destination="uGN-Uz-b8h" id="S86-uN-4PQ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="locationTextField" destination="W5v-BQ-GHg" id="OWe-VL-7px"/>
+                        <outlet property="urlTextField" destination="MIp-an-MpQ" id="2Nf-P3-Qfv"/>
+                        <segue destination="DJg-dJ-hee" kind="show" identifier="confirmLocation" id="LCJ-Ii-3m7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sjr-60-cFJ" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4040.579710144928" y="14.732142857142856"/>
         </scene>
+        <!--Confirm View Controller-->
+        <scene sceneID="VI3-CD-nif">
+            <objects>
+                <viewController id="DJg-dJ-hee" customClass="ConfirmViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="DFH-nz-HgC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="GR3-XK-WWX">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ouN-3T-QpT">
+                                <rect key="frame" x="20" y="812" width="374" height="30"/>
+                                <color key="backgroundColor" red="0.20178724319999999" green="0.70984053940000003" blue="0.89608304790000004" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <state key="normal" title="FINISH">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ouN-3T-QpT" firstAttribute="leading" secondItem="AXH-dD-baf" secondAttribute="leading" constant="20" id="1L5-bA-5hl"/>
+                            <constraint firstItem="AXH-dD-baf" firstAttribute="trailing" secondItem="GR3-XK-WWX" secondAttribute="trailing" id="3Z8-ez-n3L"/>
+                            <constraint firstItem="AXH-dD-baf" firstAttribute="bottom" secondItem="GR3-XK-WWX" secondAttribute="bottom" id="7aj-Wc-ZOg"/>
+                            <constraint firstItem="AXH-dD-baf" firstAttribute="bottom" secondItem="ouN-3T-QpT" secondAttribute="bottom" constant="20" id="Qfs-RF-1bg"/>
+                            <constraint firstItem="GR3-XK-WWX" firstAttribute="leading" secondItem="AXH-dD-baf" secondAttribute="leading" id="Tjr-eI-oWR"/>
+                            <constraint firstItem="GR3-XK-WWX" firstAttribute="top" secondItem="AXH-dD-baf" secondAttribute="top" id="kIw-EA-DFh"/>
+                            <constraint firstItem="AXH-dD-baf" firstAttribute="trailing" secondItem="ouN-3T-QpT" secondAttribute="trailing" constant="20" id="uZk-IQ-UK4"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="AXH-dD-baf"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e9n-ap-CHA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4851" y="15"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="WyY-tX-g8s">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h7C-Jx-4t7" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="rU6-n3-8uY" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="DDP-tb-XtC">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -394,19 +447,18 @@
                         <segue destination="uGN-Uz-b8h" kind="relationship" relationship="rootViewController" id="pzu-K9-5Eu"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="h7C-Jx-4t7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3228" y="15"/>
         </scene>
     </scenes>
     <resources>
-        <image name="icon_listview-deselected" width="75" height="50"/>
-        <image name="icon_listview-selected" width="75" height="50"/>
-        <image name="icon_mapview-deselected" width="75" height="50"/>
-        <image name="icon_mapview-selected" width="75" height="50"/>
-        <image name="icon_pin" width="24" height="24"/>
-        <image name="icon_world" width="52" height="67"/>
-        <image name="logo-u" width="62" height="62"/>
+        <image name="icon_tab_map_deselected" width="75" height="50"/>
+        <image name="icon_tab_map_selected" width="75" height="50"/>
+        <image name="icon_tab_table_deselected" width="75" height="50"/>
+        <image name="icon_tab_table_selected" width="75" height="50"/>
+        <image name="image_pin" width="24" height="24"/>
+        <image name="image_udacity_clear" width="62" height="62"/>
+        <image name="image_world" width="52" height="67"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="h1j-at-HjA"/>

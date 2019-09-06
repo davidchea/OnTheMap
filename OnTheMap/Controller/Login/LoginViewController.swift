@@ -1,5 +1,5 @@
 //
-//  MainViewController.swift
+//  LoginViewController.swift
 //  OnTheMap
 //
 //  Created by David Chea on 28/08/2019.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+class LoginViewController: UIViewController {
     
     // MARK: Outlets
     
@@ -28,36 +28,27 @@ class MainViewController: UIViewController {
     
     // MARK: Actions
     
-    /// Check email and password with Udacity API, then log in.
-    @IBAction func logIn(_ sender: UIButton) {
-        // Display an alert if email and/or password text fields are empty
-        guard
-            let email = emailTextField.text,
-            let password = passwordTextField.text,
-            !email.isEmpty,
-            !password.isEmpty
-        else {
-            displayAlert(title: "Empty field", message: "Please fill email and password fields.")
-            
-            return
-        }
+    /// Check email and password with the Udacity API, then log in.
+    @IBAction func logIn() {
+        let email = emailTextField.text!
+        let password = passwordTextField.text!
         
-        loginActivityIndicatorView.startAnimating()
-        UdacityAPI.createSession(email: email, password: password, completion: handleSessionResponse(jsonData:))
+        if email.isEmpty && password.isEmpty {
+            displayAlert(title: "Empty field", message: "Please fill email and password fields.")
+        } else {
+            loginActivityIndicatorView.startAnimating()
+            UdacityAPI.createSession(email: email, password: password, completion: handleSessionResponse(jsonData:))
+        }
     }
     
     // MARK: Methods
     
     /// Set the sign up link and center the text view.
     func setSignUpTextView() {
-        guard
-            let signUpText = signUpTextView.text,
-            let url = URL(string: "https://auth.udacity.com/sign-up?next=https://classroom.udacity.com/authenticated")
-        else { return }
-        
-        let attributedString = NSMutableAttributedString(string: signUpText)
+        let attributedString = NSMutableAttributedString(string: signUpTextView.text)
     
         // Set the "Sign up." substring to be the link
+        let url = URL(string: "https://auth.udacity.com/sign-up?next=https://classroom.udacity.com/authenticated")!
         attributedString.setAttributes([.link: url], range: NSMakeRange(23, 8))
         
         signUpTextView.attributedText = attributedString
@@ -76,13 +67,6 @@ class MainViewController: UIViewController {
         passwordTextField.resignFirstResponder()
     }
     
-    /// Display a custom alert box.
-    func displayAlert(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alertController, animated: true, completion: nil)
-    }
-    
     /**
      Go to `MapViewController` if login was successful or display an alert box if not.
      
@@ -92,11 +76,11 @@ class MainViewController: UIViewController {
         loginActivityIndicatorView.stopAnimating()
         
         if jsonData["error"] == nil {
-            self.performSegue(withIdentifier: "successfulLogin", sender: nil)
-            self.emailTextField.text = ""
-            self.passwordTextField.text = ""
+            performSegue(withIdentifier: "successfulLogin", sender: nil)
+            emailTextField.text = ""
+            passwordTextField.text = ""
         } else {
-            self.displayAlert(title: "Login failed", message: "Incorrect email and/or password.")
+            displayAlert(title: "Login failed", message: "Incorrect email and/or password.")
         }
     }
 }

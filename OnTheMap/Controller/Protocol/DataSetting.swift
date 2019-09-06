@@ -8,6 +8,7 @@
 
 protocol DataSetting {
     
+    /// Call to the Udacity API.
     func setViewData()
     
     /**
@@ -17,5 +18,6 @@ protocol DataSetting {
      */
     func setViewData(dataCodable: Results)
     
+    /// Clear the current data and add a new one.
     func refresh()
 }
