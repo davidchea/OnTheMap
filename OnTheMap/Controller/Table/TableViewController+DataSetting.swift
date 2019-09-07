@@ -10,7 +10,7 @@ extension TableViewController: DataSetting {
     
     func setViewData() {
         tableActivityIndicatorView.startAnimating()
-        UdacityAPI.getAllStudentLocation(completion: setViewData(dataCodable:))
+        UdacityAPI.getAllStudentLocation(completionHandler: setViewData(dataCodable:))
     }
     
     func setViewData(dataCodable: Results) {

@@ -19,6 +19,17 @@ extension UIViewController {
     
     // MARK: Methods
     
+    /// Hide the keyboard when the user taps outside of a text field.
+    func setTapGestureRecognizer() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard(_:)))
+        view.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    /// Release text fields focus so the keyboard will be hidden.
+    @objc func hideKeyboard (_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
+    
     /// Display a custom alert box.
     func displayAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)

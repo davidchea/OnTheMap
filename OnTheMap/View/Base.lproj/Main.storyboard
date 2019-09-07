@@ -316,7 +316,7 @@
                                 <rect key="frame" x="197" y="438" width="20" height="20"/>
                             </activityIndicatorView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="34" translatesAutoresizingMaskIntoConstraints="NO" id="tcK-Ik-9Y6" userLabel="Main Stack View">
-                                <rect key="frame" x="20" y="286.5" width="374" height="213"/>
+                                <rect key="frame" x="20" y="251.5" width="374" height="213"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image_world" translatesAutoresizingMaskIntoConstraints="NO" id="oJb-SP-QGd" userLabel="Logo">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="67"/>
@@ -328,7 +328,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="next" enablesReturnKeyAutomatically="YES" textContentType="location"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next" enablesReturnKeyAutomatically="YES" textContentType="address-level1+2"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="uGN-Uz-b8h" id="Jb2-Ql-3U8"/>
                                                 </connections>
@@ -370,7 +370,7 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="p77-cg-3WQ" firstAttribute="centerY" secondItem="xb1-3D-ioK" secondAttribute="centerY" id="ItH-P9-lfj"/>
-                            <constraint firstItem="tcK-Ik-9Y6" firstAttribute="centerY" secondItem="xb1-3D-ioK" secondAttribute="centerY" constant="-55" id="NgK-Ut-PMG"/>
+                            <constraint firstItem="tcK-Ik-9Y6" firstAttribute="centerY" secondItem="xb1-3D-ioK" secondAttribute="centerY" constant="-90" id="NgK-Ut-PMG"/>
                             <constraint firstItem="p77-cg-3WQ" firstAttribute="centerX" secondItem="xb1-3D-ioK" secondAttribute="centerX" id="ff6-zh-hYJ"/>
                             <constraint firstItem="fbA-AH-9sN" firstAttribute="trailing" secondItem="tcK-Ik-9Y6" secondAttribute="trailing" constant="20" id="mCs-Yb-V9S"/>
                             <constraint firstItem="tcK-Ik-9Y6" firstAttribute="leading" secondItem="fbA-AH-9sN" secondAttribute="leading" constant="20" id="ydg-iD-JbE"/>

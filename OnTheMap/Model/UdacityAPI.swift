@@ -37,7 +37,7 @@ class UdacityAPI {
         - password: The password.
         - completion: The closure in which the response (a dictionary) will be handled.
      */
-    static func createSession(email: String, password: String, completion: @escaping ([String: Any]) -> Void) {
+    static func createSession(email: String, password: String, completionHandler: @escaping ([String: Any]) -> Void) {
         // Get the session endpoint and create the request
         var request = URLRequest(url: Endpoint.session.url)
         
@@ -59,7 +59,7 @@ class UdacityAPI {
             // The first five characters are used for security purpose, need to skip them
             let newData = data.subdata(in: 5..<data.count)
             let dataJson = try! JSONSerialization.jsonObject(with: newData, options: []) as! [String: Any]
-            DispatchQueue.main.async { completion(dataJson) }
+            DispatchQueue.main.async { completionHandler(dataJson) }
         }
         task.resume()
     }
@@ -69,7 +69,7 @@ class UdacityAPI {
      
      - Parameter completion: The closure in which the response (a `Codable`) will be handled.
      */
-    static func getAllStudentLocation(completion: @escaping (Results) -> Void) {
+    static func getAllStudentLocation(completionHandler: @escaping (Results) -> Void) {
         let request = URLRequest(url: Endpoint.studentLocation.url)
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -77,7 +77,7 @@ class UdacityAPI {
             
             // Decode the response to a Codable object
             let dataCodable = try! JSONDecoder().decode(Results.self, from: data)
-            DispatchQueue.main.async { completion(dataCodable) }
+            DispatchQueue.main.async { completionHandler(dataCodable) }
         }
         task.resume()
     }

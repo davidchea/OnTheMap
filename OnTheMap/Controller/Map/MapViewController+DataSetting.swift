@@ -10,7 +10,7 @@ extension MapViewController: DataSetting {
     
     func setViewData() {
         mapActivityIndicatorView.startAnimating()
-        UdacityAPI.getAllStudentLocation(completion: setViewData(dataCodable:))
+        UdacityAPI.getAllStudentLocation(completionHandler: setViewData(dataCodable:))
     }
     
     func setViewData(dataCodable: Results) {

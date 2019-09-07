@@ -17,13 +17,20 @@ class AddViewController: UIViewController {
     @IBOutlet weak var urlTextField: UITextField!
     @IBOutlet weak var addLoginIndicatorView: UIActivityIndicatorView!
     
+    // MARK: Life cycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setTapGestureRecognizer()
+    }
+    
     // MARK: Inherited methods
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let confirmViewController = segue.destination as! ConfirmViewController
-        confirmViewController.location = locationTextField.text
+        confirmViewController.locationData = sender as! [String: Any]
         confirmViewController.url = urlTextField.text
-        confirmViewController.coordinate = sender as? CLLocationCoordinate2D
     }
     
     // MARK: Actions
@@ -47,13 +54,16 @@ class AddViewController: UIViewController {
     func handleGeocodeAddressString(placemarks: [CLPlacemark]?, error: Error?) {
         addLoginIndicatorView.stopAnimating()
         
-        guard let placemarks = placemarks else {
+        guard let placemark = placemarks?.first else {
             displayAlert(title: "Failed to find location", message: "Please enter a correct location.")
             
             return
         }
         
-        let coordinate = placemarks[0].location!.coordinate
-        performSegue(withIdentifier: "confirmLocation", sender: coordinate)
+        let locationData: [String: Any] = [
+            "city": placemark.locality!,
+            "coordinate": placemark.location!.coordinate
+        ]
+        performSegue(withIdentifier: "confirmLocation", sender: locationData)
     }
 }

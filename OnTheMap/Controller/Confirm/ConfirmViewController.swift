@@ -13,9 +13,8 @@ class ConfirmViewController: UIViewController {
 
     @IBOutlet weak var confirmMapView: MKMapView!
     
-    var location: String!
+    var locationData = [String: Any]()
     var url: String!
-    var coordinate: CLLocationCoordinate2D!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,10 +26,10 @@ class ConfirmViewController: UIViewController {
     
     func setPointAnnotation() {
         let pointAnnotation = MKPointAnnotation()
-        pointAnnotation.title = location
-        pointAnnotation.coordinate = coordinate
+        pointAnnotation.title = locationData["city"] as? String
+        pointAnnotation.coordinate = locationData["coordinate"] as! CLLocationCoordinate2D
         
-        let coordinateRegion = MKCoordinateRegion(center: coordinate, latitudinalMeters: 500000, longitudinalMeters: 500000)
+        let coordinateRegion = MKCoordinateRegion(center: pointAnnotation.coordinate, latitudinalMeters: 500000, longitudinalMeters: 500000)
         
         confirmMapView.addAnnotation(pointAnnotation)
         confirmMapView.setRegion(coordinateRegion, animated: true)

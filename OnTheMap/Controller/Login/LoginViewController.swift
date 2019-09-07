@@ -40,7 +40,7 @@ class LoginViewController: UIViewController {
         }
         
         loginActivityIndicatorView.startAnimating()
-        UdacityAPI.createSession(email: email, password: password, completion: handleSessionResponse(jsonData:))
+        UdacityAPI.createSession(email: email, password: password, completionHandler: handleSessionResponse(jsonData:))
     }
     
     // MARK: Methods
@@ -55,18 +55,6 @@ class LoginViewController: UIViewController {
         
         signUpTextView.attributedText = attributedString
         signUpTextView.textAlignment = NSTextAlignment.center
-    }
-    
-    /// Hide the keyboard when the user taps outside of a text field.
-    func setTapGestureRecognizer() {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard(_:)))
-        view.addGestureRecognizer(tapGestureRecognizer)
-    }
-    
-    /// Release text fields focus so the keyboard will be hidden.
-    @objc func hideKeyboard (_ sender: UITapGestureRecognizer) {
-        emailTextField.resignFirstResponder()
-        passwordTextField.resignFirstResponder()
     }
     
     /**
