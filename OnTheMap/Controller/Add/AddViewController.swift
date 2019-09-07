@@ -35,6 +35,7 @@ class AddViewController: UIViewController {
     
     // MARK: Actions
     
+    /// Try to find the location from the user input.
     @IBAction func findLocation() {
         let location = locationTextField.text!
         let url = urlTextField.text!
@@ -51,17 +52,24 @@ class AddViewController: UIViewController {
     
     // MARK: Methods
     
+    /**
+     Go to `ConfirmViewController` if the location was found or display an alert box if not.
+     
+     - Parameters:
+        - placemarks: For most geocoding requests, this array should contain only one entry.
+        - error: Contains `nil` or an error object indicating why the placemark data was not returned.
+     */
     func handleGeocodeAddressString(placemarks: [CLPlacemark]?, error: Error?) {
         addLoginIndicatorView.stopAnimating()
         
-        guard let placemark = placemarks?.first else {
+        guard let placemarks = placemarks, let placemark = placemarks.first else {
             displayAlert(title: "Failed to find location", message: "Please enter a correct location.")
             
             return
         }
         
         let locationData: [String: Any] = [
-            "city": placemark.locality!,
+            "location": placemark.locality!,
             "coordinate": placemark.location!.coordinate
         ]
         performSegue(withIdentifier: "confirmLocation", sender: locationData)

@@ -10,6 +10,8 @@ import UIKit
 
 extension AddViewController: UITextFieldDelegate {
     
+    // MARK: Delegate methods
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == locationTextField {
             urlTextField.becomeFirstResponder()

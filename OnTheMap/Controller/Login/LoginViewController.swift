@@ -28,7 +28,7 @@ class LoginViewController: UIViewController {
     
     // MARK: Actions
     
-    /// Check email and password with the Udacity API, then log in.
+    /// Check email and password using the Udacity API, then log in.
     @IBAction func logIn() {
         let email = emailTextField.text!
         let password = passwordTextField.text!
@@ -40,7 +40,7 @@ class LoginViewController: UIViewController {
         }
         
         loginActivityIndicatorView.startAnimating()
-        UdacityAPI.createSession(email: email, password: password, completionHandler: handleSessionResponse(jsonData:))
+        UdacityAPI.addSession(email: email, password: password, completionHandler: handleSessionResponse(jsonData:))
     }
     
     // MARK: Methods

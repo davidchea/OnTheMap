@@ -14,8 +14,8 @@ struct StudentLocation: Codable {
     let lastName: String
     let mapString: String
     let mediaURL: String
-    let latitude: Float
-    let longitude: Float
+    let latitude: Double
+    let longitude: Double
     let createdAt: String
     let updatedAt: String
 }

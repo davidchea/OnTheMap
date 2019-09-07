@@ -10,6 +10,8 @@ import UIKit
 
 extension LoginViewController: UITextFieldDelegate {
     
+    // MARK: Delegate methods
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == emailTextField {
             passwordTextField.becomeFirstResponder()

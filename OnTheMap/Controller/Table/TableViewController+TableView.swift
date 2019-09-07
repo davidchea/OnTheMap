@@ -10,6 +10,8 @@ import UIKit
 
 extension TableViewController: UITableViewDataSource, UITableViewDelegate {
     
+    // MARK: Delegate methods
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return StudentLocationData.allStudentLocation.count
     }

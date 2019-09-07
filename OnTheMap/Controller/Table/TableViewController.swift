@@ -15,6 +15,14 @@ class TableViewController: UIViewController {
     @IBOutlet weak var studentLocationTableView: UITableView!
     @IBOutlet weak var tableActivityIndicatorView: UIActivityIndicatorView!
 
+    // MARK: Life cycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setViewData()
+    }
+    
     // MARK: Actions
     
     /// Refresh the table view.

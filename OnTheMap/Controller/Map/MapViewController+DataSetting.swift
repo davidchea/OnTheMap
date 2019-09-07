@@ -8,6 +8,8 @@
 
 extension MapViewController: DataSetting {
     
+    // MARK: Protocol methods
+    
     func setViewData() {
         mapActivityIndicatorView.startAnimating()
         UdacityAPI.getAllStudentLocation(completionHandler: setViewData(dataCodable:))

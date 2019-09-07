@@ -8,6 +8,8 @@
 
 extension TableViewController: DataSetting {
     
+    // MARK: Protocol methods
+    
     func setViewData() {
         tableActivityIndicatorView.startAnimating()
         UdacityAPI.getAllStudentLocation(completionHandler: setViewData(dataCodable:))

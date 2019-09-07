@@ -417,21 +417,30 @@
                                         <integer key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="addStudentLocation" destination="DJg-dJ-hee" eventType="touchUpInside" id="elv-Bt-mO2"/>
+                                </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="EpR-oq-Wqx">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ouN-3T-QpT" firstAttribute="leading" secondItem="AXH-dD-baf" secondAttribute="leading" constant="20" id="1L5-bA-5hl"/>
                             <constraint firstItem="AXH-dD-baf" firstAttribute="trailing" secondItem="GR3-XK-WWX" secondAttribute="trailing" id="3Z8-ez-n3L"/>
+                            <constraint firstItem="EpR-oq-Wqx" firstAttribute="centerX" secondItem="DFH-nz-HgC" secondAttribute="centerX" id="4Wf-mb-5LQ"/>
                             <constraint firstItem="AXH-dD-baf" firstAttribute="bottom" secondItem="GR3-XK-WWX" secondAttribute="bottom" id="7aj-Wc-ZOg"/>
                             <constraint firstItem="AXH-dD-baf" firstAttribute="bottom" secondItem="ouN-3T-QpT" secondAttribute="bottom" constant="20" id="Qfs-RF-1bg"/>
                             <constraint firstItem="GR3-XK-WWX" firstAttribute="leading" secondItem="AXH-dD-baf" secondAttribute="leading" id="Tjr-eI-oWR"/>
+                            <constraint firstItem="EpR-oq-Wqx" firstAttribute="centerY" secondItem="DFH-nz-HgC" secondAttribute="centerY" id="gNo-oU-leR"/>
                             <constraint firstItem="GR3-XK-WWX" firstAttribute="top" secondItem="AXH-dD-baf" secondAttribute="top" id="kIw-EA-DFh"/>
                             <constraint firstItem="AXH-dD-baf" firstAttribute="trailing" secondItem="ouN-3T-QpT" secondAttribute="trailing" constant="20" id="uZk-IQ-UK4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="AXH-dD-baf"/>
                     </view>
                     <connections>
+                        <outlet property="confirmActivityIndicatorView" destination="EpR-oq-Wqx" id="QZM-Nk-Hwn"/>
                         <outlet property="confirmMapView" destination="GR3-XK-WWX" id="8fd-ae-3Bn"/>
                     </connections>
                 </viewController>
