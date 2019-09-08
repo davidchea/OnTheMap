@@ -52,7 +52,7 @@ class UdacityAPI {
         let udacityJson = try! JSONEncoder().encode(udacity)
         request.httpBody = udacityJson
         
-        // Check if it's correct email and password, then log in
+        // Check if it is correct email and password, then log in
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 DispatchQueue.main.async {
