@@ -20,7 +20,7 @@ class UdacityAPI {
             case .session:
                 return "\(Endpoint.base)session"
             case .studentLocation:
-                return "\(Endpoint.base)StudentLocation?order=-updatedAt"
+                return "\(Endpoint.base)StudentLocation?limit=100&order=-updatedAt"
             }
         }
         
@@ -37,7 +37,7 @@ class UdacityAPI {
         - password: The password.
         - completionHandler: The closure in which the response (a dictionary) will be handled.
      */
-    static func addSession(email: String, password: String, completionHandler: @escaping ([String: Any]) -> Void) {
+    static func addSession(email: String, password: String, completionHandler: @escaping ([String: Any]?) -> Void) {
         // Get the session endpoint and create the request
         var request = URLRequest(url: Endpoint.session.url)
         
@@ -52,8 +52,17 @@ class UdacityAPI {
         let udacityJson = try! JSONEncoder().encode(udacity)
         request.httpBody = udacityJson
         
-        // Check if it is correct email and password then log in
+        // Check if it is correct email and password, then log in
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                DispatchQueue.main.async {
+                    print(error!.localizedDescription)
+                    completionHandler(nil)
+                }
+             
+                return
+            }
+            
             // The first five characters are used for security purpose, need to skip them
             let newData = data!.subdata(in: 5..<data!.count)
             let dataJson = try! JSONSerialization.jsonObject(with: newData, options: []) as! [String: Any]
@@ -67,12 +76,21 @@ class UdacityAPI {
      
      - Parameter completionHandler: The closure in which the response (a `Codable`) will be handled.
      */
-    static func getAllStudentLocation(completionHandler: @escaping (Results) -> Void) {
+    static func getAllStudentLocation(completionHandler: @escaping (Results?) -> Void) {
         // Get the StudentLocation endpoint and create the request
         let request = URLRequest(url: Endpoint.studentLocation.url)
         
         // The received data will be a Results which is a Codable object
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                DispatchQueue.main.async {
+                    print(error!.localizedDescription)
+                    completionHandler(nil)
+                }
+                
+                return
+            }
+            
             // Decode the response to a Codable object
             let dataCodable = try! JSONDecoder().decode(Results.self, from: data!)
             DispatchQueue.main.async { completionHandler(dataCodable) }
@@ -90,7 +108,7 @@ class UdacityAPI {
         - longitude: The location longitude.
         - completionHandler: The closure in which the response (a dictionary) will be handled.
      */
-    static func addStudentLocation(mapString: String, mediaURL: String, latitude: Double, longitude: Double, completionHandler: @escaping ([String: Any]) -> Void) {
+    static func addStudentLocation(mapString: String, mediaURL: String, latitude: Double, longitude: Double, completionHandler: @escaping (Bool) -> Void) {
         // Get the StudentLocation endpoint and create the request
         var request = URLRequest(url: Endpoint.studentLocation.url)
         
@@ -116,8 +134,16 @@ class UdacityAPI {
         
         // Add the new StudentLocation
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            let dataJson = try! JSONSerialization.jsonObject(with: data!, options: []) as! [String: Any]
-            DispatchQueue.main.async { completionHandler(dataJson) }
+            guard error == nil else {
+                DispatchQueue.main.async {
+                    print(error!.localizedDescription)
+                    completionHandler(false)
+                }
+                
+                return
+            }
+            
+            DispatchQueue.main.async { completionHandler(true) }
         }
         task.resume()
     }

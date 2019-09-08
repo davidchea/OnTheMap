@@ -25,4 +25,16 @@ extension TableViewController: UITableViewDataSource, UITableViewDelegate {
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let studentLocationURL = StudentLocationData.allStudentLocation[indexPath.item].mediaURL
+        
+        guard let url = URL(string: studentLocationURL) else {
+            displayAlert(title: "Invalid URL", message: "")
+            
+            return
+        }
+        
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
 }

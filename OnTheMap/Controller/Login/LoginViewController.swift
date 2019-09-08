@@ -62,8 +62,14 @@ class LoginViewController: UIViewController {
      
      - Parameter jsonData: The JSON response send by the Udacity API to log in.
      */
-    func handleSessionResponse(jsonData: [String: Any]) {
+    func handleSessionResponse(jsonData: [String: Any]?) {
         loginActivityIndicatorView.stopAnimating()
+        
+        guard let jsonData = jsonData else {
+            displayAlert(title: "Internal error", message: "An error occurred, please try again later.")
+            
+            return
+        }
         
         guard jsonData["error"] == nil else {
             displayAlert(title: "Login failed", message: "Incorrect email and/or password.")

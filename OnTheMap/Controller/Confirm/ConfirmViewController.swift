@@ -42,7 +42,7 @@ class ConfirmViewController: UIViewController {
             mediaURL: url,
             latitude: (locationData["coordinate"] as! CLLocationCoordinate2D).latitude,
             longitude: (locationData["coordinate"] as! CLLocationCoordinate2D).longitude,
-            completionHandler: handleAddStudentLocationResponse(jsonData:)
+            completionHandler: handleAddStudentLocationResponse(isPassed:)
         )
     }
     
@@ -63,9 +63,15 @@ class ConfirmViewController: UIViewController {
     /**
      Return to `MapViewController` or `TableViewController` if the `StudentLocation` was successfully added.
      
-     - Parameter jsonData: The JSON response send by the Udacity API to add a `StudentLocation`.
+     - Parameter isPassed: The Udacity API call to add a `StudentLocation` did not return an error.
      */
-    func handleAddStudentLocationResponse(jsonData: [String: Any]) {
+    func handleAddStudentLocationResponse(isPassed: Bool) {
+        guard isPassed else {
+            displayAlert(title: "Internal error", message: "An error occurred, please try again later.")
+            
+            return
+        }
+        
         confirmActivityIndicatorView.stopAnimating()
         presentingViewController!.dismiss(animated: true, completion: nil)
     }

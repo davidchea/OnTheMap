@@ -16,7 +16,7 @@ protocol DataSetting {
      
      - Parameter dataCodable: The data send by the Udacity API to get the most recent 100 `StudentLocation`.
      */
-    func setViewData(dataCodable: Results)
+    func setViewData(dataCodable: Results?)
     
     /// Clear the current data and add a new one.
     func refresh()

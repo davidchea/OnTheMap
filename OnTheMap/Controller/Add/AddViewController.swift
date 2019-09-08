@@ -62,12 +62,19 @@ class AddViewController: UIViewController {
     func handleGeocodeAddressString(placemarks: [CLPlacemark]?, error: Error?) {
         addLoginIndicatorView.stopAnimating()
         
-        guard let placemarks = placemarks, let placemark = placemarks.first else {
-            displayAlert(title: "Failed to find location", message: "Please enter a correct location.")
+        guard error == nil else {
+            let errorCode = (error as NSError?)!.code
+            if errorCode == 8 {
+                displayAlert(title: "Failed to find location", message: "Please enter a correct location.")
+            } else {
+                print(error!.localizedDescription)
+                displayAlert(title: "Internal error", message: "An error occurred, please try again later.")
+            }
             
             return
         }
         
+        let placemark = placemarks!.first!
         let locationData: [String: Any] = [
             "location": placemark.locality!,
             "coordinate": placemark.location!.coordinate
