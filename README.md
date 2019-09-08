@@ -7,3 +7,16 @@ On The Map allows users to share their location and a URL with their fellow stud
 First, the user logs in to the app using their Udacity username and password. After login, the app downloads locations and links previously posted by other students. These links can point to any URL that a student chooses.
 
 After viewing the information posted by other students, a user can post their own location and link. The locations are specified with a string and forward geocoded. They can be as specific as a full street address or as generic as "Costa Rica" or "Seattle, WA".
+
+## Screenshots
+
+<p float="left">
+    <img src="./README-IMAGES/screenshot-map.jpg" width="289" height="518">
+    <img src="./README-IMAGES/screenshot-table.jpg" width="289" height="518">
+    <img src="./README-IMAGES/screenshot-add.jpg" width="289" height="518">
+    <img src="./README-IMAGES/screenshot-confirm.jpg" width="289" height="518">
+</p>
+
+## License
+
+The content of this repository is licensed under a [MIT License](LICENSE).
