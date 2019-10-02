@@ -2,7 +2,7 @@
 
 This project is part of the [Udacity iOS Developer Nanodegree](https://www.udacity.com/course/ios-developer-nanodegree--nd003).
 
-On The Map allows users to share their location and a URL with their fellow students. To visualize this data, On The Map uses a map with pins for location and pin annotations for student names and URLs, allowing students to place themselves "on the map", so to speak.
+**On The Map** allows users to share their location and a URL with their fellow students. To visualize this data, **On The Map** uses a map with pins for location and pin annotations for student names and URLs, allowing students to place themselves "on the map", so to speak.
 
 First, the user logs in to the app using their Udacity username and password. After login, the app downloads locations and links previously posted by other students. These links can point to any URL that a student chooses.
 
