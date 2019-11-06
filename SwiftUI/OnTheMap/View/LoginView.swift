@@ -20,26 +20,34 @@ struct LoginView: View {
     // MARK: - View
     
     var body: some View {
-        VStack {
-            Image("image-udacity-clear")
-            TextField("Email", text: $email)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            TextField("Password", text: $password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-            
-            NavigationLink(destination: MapView(), tag: 1, selection: $selection) {
-                Button(action: {
-                    self.selection = 1
-                }) {
-                    Text("LOG IN")
+        GeometryReader { geometryProxy in
+            VStack(spacing: 15) {
+                Spacer()
+                
+                Image("image-udacity-clear")
+                
+                Spacer()
+                
+                TextField("Email", text: self.$email)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                SecureField("Password", text: self.$password)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                
+                NavigationLink(destination: MapView(), tag: 1, selection: self.$selection) {
+                    Button(action: { self.selection = 1 }) {
+                        Text("LOG IN")
+                    }
                 }
+                .padding(.vertical, 5)
+                .frame(width: geometryProxy.size.width)
+                .foregroundColor(.white)
+                .background(Color(red: 51 / 255, green: 181 / 255, blue: 229 / 255))
+                .cornerRadius(5)
+                
+                Text("Don't have an account? Sign up.")
+                
+                Spacer()
             }
-            .padding()
-            .foregroundColor(.white)
-            .background(Color(red: 51 / 255, green: 181 / 255, blue: 229 / 255))
-            .cornerRadius(10)
-            
-            Text("Don't have an account? Sign up.")
         }
         .padding()
     }
