@@ -34,8 +34,8 @@ struct LoginView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 
                 NavigationLink(destination: MapView(), tag: 1, selection: self.$selection) {
-                    Button(action: { self.selection = 1 }) {
-                        Text("LOG IN")
+                    Button("LOG IN") {
+                        self.selection = 1
                     }
                 }
                 .padding(.vertical, 5)
@@ -44,7 +44,11 @@ struct LoginView: View {
                 .background(Color(red: 51 / 255, green: 181 / 255, blue: 229 / 255))
                 .cornerRadius(5)
                 
-                Text("Don't have an account? Sign up.")
+                HStack(spacing: 0) {
+                    Text("Don't have an account? ")
+                    
+                    Button("Sign up.") {}
+                }
                 
                 Spacer()
             }
