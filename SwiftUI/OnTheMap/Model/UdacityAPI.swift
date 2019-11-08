@@ -45,8 +45,8 @@ class UdacityAPI {
         
         let login = Login(username: email, password: password)
         let udacity = Udacity(udacity: login)
-        let udacityJson = try! JSONEncoder().encode(udacity)
-        request.httpBody = udacityJson
+        let udacityJSON = try! JSONEncoder().encode(udacity)
+        request.httpBody = udacityJSON
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
@@ -60,8 +60,8 @@ class UdacityAPI {
             
             // The first five characters are used for security purpose and we need to skip them.
             let newData = data!.subdata(in: 5..<data!.count)
-            let dataJson = try! JSONSerialization.jsonObject(with: newData, options: []) as! [String: Any]
-            DispatchQueue.main.async { completionHandler(dataJson) }
+            let dataJSON = try! JSONSerialization.jsonObject(with: newData, options: []) as! [String: Any]
+            DispatchQueue.main.async { completionHandler(dataJSON) }
         }
         task.resume()
     }
@@ -117,8 +117,8 @@ class UdacityAPI {
             createdAt: "",
             updatedAt: ""
         )
-        let studentLocationJson = try! JSONEncoder().encode(studentLocation)
-        request.httpBody = studentLocationJson
+        let studentLocationJSON = try! JSONEncoder().encode(studentLocation)
+        request.httpBody = studentLocationJSON
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
