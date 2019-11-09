@@ -2,19 +2,22 @@
 //  MapView.swift
 //  OnTheMap
 //
-//  Created by David Chea on 06/11/2019.
+//  Created by David Chea on 09/11/2019.
 //  Copyright © 2019 David Chea. All rights reserved.
 //
 
 import SwiftUI
+import MapKit
 
-struct MapView: View {
+struct MapView: UIViewRepresentable {
     
-    // MARK: - View
+    // MARK: - Protocol methods
     
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+    func makeUIView(context: Context) -> MKMapView {
+        MKMapView()
     }
+    
+    func updateUIView(_ uiView: MKMapView, context: Context) {}
 }
 
 struct MapView_Previews: PreviewProvider {

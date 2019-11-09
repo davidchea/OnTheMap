@@ -33,18 +33,20 @@ struct LoginView: View {
                     Spacer()
                     
                     TextField("Email", text: self.$email)
+                        .padding(.horizontal)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .autocapitalization(.none)
                     SecureField("Password", text: self.$password)
+                        .padding(.horizontal)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     
-                    NavigationLink(destination: MapView(), tag: 1, selection: self.$selection) {
+                    NavigationLink(destination: StudentLocationView(), tag: 1, selection: self.$selection) {
                         Button("LOG IN") {
                             UdacityAPI.addSession(email: self.email, password: self.password, completionHandler: self.completionHandler(dataJSON:))
                         }
                     }
                     .padding(.vertical, 5)
-                    .frame(width: geometryProxy.size.width)
+                    .frame(width: geometryProxy.size.width / 4)
                     .foregroundColor(.white)
                     .background(Color(red: 51 / 255, green: 181 / 255, blue: 229 / 255))
                     .cornerRadius(5)
@@ -61,7 +63,6 @@ struct LoginView: View {
                 .navigationBarHidden(true)
             }
         }
-        .padding()
         .alert(isPresented: $isShowingInternalErrorAlert) {
             Alert(title: Text("Internal error"), message: Text("An error occurred, please try again later."), dismissButton: .default(Text("OK")))
         }
