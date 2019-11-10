@@ -8,5 +8,7 @@
 
 struct Udacity: Codable {
     
+    // MARK: - Property
+    
     let udacity: Login
 }

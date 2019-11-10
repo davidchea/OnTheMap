@@ -11,22 +11,18 @@ import MapKit
 
 struct MapView: UIViewRepresentable {
     
+    // MARK: - Property
+    
+    @EnvironmentObject private var data: Data
+    
     // MARK: - Protocol methods
     
     func makeUIView(context: Context) -> MKMapView {
-        MKMapView()
+        let mapView = MKMapView()
+        mapView.addAnnotations(data.allPointAnnotation)
+        
+        return mapView
     }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {}
-}
-
-struct MapView_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        ForEach(["iPhone SE", "iPhone 11 Pro Max"], id: \.self) { deviceName in
-            MapView()
-                .previewDevice(PreviewDevice(rawValue: deviceName))
-                .previewDisplayName(deviceName)
-        }
-    }
 }

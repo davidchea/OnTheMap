@@ -10,17 +10,28 @@ import SwiftUI
 
 struct StudentLocationView: View {
     
+    // MARK: - Property
+    
+    @EnvironmentObject private var data: Data
+    
     // MARK: - View
     
     var body: some View {
         TabView {
             MapView()
-                .tabItem { Image(systemName: "map.fill") }
+                .environmentObject(data)
+                .tabItem {
+                    Image(systemName: "map.fill")
+                }
             
             List {
-                Text("List")
+                ForEach(data.allStudentLocation) { studentLocation in
+                    StudentLocationRow(studentLocation: studentLocation)
+                }
             }
-            .tabItem { Image(systemName: "list.bullet") }
+            .tabItem {
+                Image(systemName: "list.bullet")
+            }
         }
     }
 }

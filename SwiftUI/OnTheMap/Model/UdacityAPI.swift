@@ -106,7 +106,7 @@ class UdacityAPI {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let studentLocation = StudentLocation(
-            objectID: "",
+            objectId: "",
             uniqueKey: "",
             firstName: "Jacques",
             lastName: "Chirac",

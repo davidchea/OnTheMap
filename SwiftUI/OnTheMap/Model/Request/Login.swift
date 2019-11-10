@@ -8,6 +8,8 @@
 
 struct Login: Codable {
     
+    // MARK: - Properties
+    
     let username: String
     let password: String
 }

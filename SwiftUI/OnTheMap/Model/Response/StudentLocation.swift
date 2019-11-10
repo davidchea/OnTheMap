@@ -6,9 +6,11 @@
 //  Copyright © 2019 David Chea. All rights reserved.
 //
 
-struct StudentLocation: Codable {
+class StudentLocation: Codable, Identifiable {
     
-    let objectID: String
+    // MARK: - Properties
+    
+    let objectId: String
     let uniqueKey: String
     let firstName: String
     let lastName: String
@@ -18,4 +20,30 @@ struct StudentLocation: Codable {
     let longitude: Double
     let createdAt: String
     let updatedAt: String
+    
+    // MARK: - Initializer
+    
+    init(
+        objectId: String,
+        uniqueKey: String,
+        firstName: String,
+        lastName: String,
+        mapString: String,
+        mediaURL: String,
+        latitude: Double,
+        longitude: Double,
+        createdAt: String,
+        updatedAt: String
+    ) {
+        self.objectId = objectId
+        self.uniqueKey = uniqueKey
+        self.firstName = firstName
+        self.lastName = lastName
+        self.mapString = mapString
+        self.mediaURL = mediaURL
+        self.latitude = latitude
+        self.longitude = longitude
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+    }
 }

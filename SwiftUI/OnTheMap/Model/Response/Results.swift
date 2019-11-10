@@ -8,5 +8,7 @@
 
 struct Results: Codable {
     
+    // MARK: - Property
+    
     let results: [StudentLocation]
 }
