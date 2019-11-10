@@ -67,7 +67,7 @@ class UdacityAPI {
     }
     
     /**
-     Get the most recent 100 `StudentLocation`.
+     Get the 100 most recent `StudentLocation`.
      
      - Parameter completionHandler: The closure in which the response will be handled.
      */

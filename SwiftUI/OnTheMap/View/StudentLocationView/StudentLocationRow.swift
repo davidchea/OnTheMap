@@ -20,7 +20,7 @@ struct StudentLocationRow: View {
         HStack {
             Image("image-pin")
                 .resizable()
-                .frame(width: 40, height: 40)
+                .frame(width: 30, height: 30)
                 .padding(.trailing)
             
             VStack(alignment: .leading) {
