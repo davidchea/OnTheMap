@@ -1,5 +1,5 @@
 //
-//  Data.swift
+//  StudentLocationData.swift
 //  OnTheMap
 //
 //  Created by David Chea on 10/11/2019.
@@ -7,10 +7,8 @@
 //
 
 import SwiftUI
-import MapKit
 
-final class Data: ObservableObject {
+final class StudentLocationData: ObservableObject {
     
     @Published var allStudentLocation = [StudentLocation]()
-    @Published var allPointAnnotation = [MKPointAnnotation]()
 }

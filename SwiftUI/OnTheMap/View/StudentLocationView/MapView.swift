@@ -13,16 +13,17 @@ struct MapView: UIViewRepresentable {
     
     // MARK: - Property
     
-    @EnvironmentObject private var data: Data
+    @EnvironmentObject private var studentLocationData: StudentLocationData
     
     // MARK: - Protocol methods
     
     func makeUIView(context: Context) -> MKMapView {
-        let mapView = MKMapView()
-        mapView.addAnnotations(data.allPointAnnotation)
-        
-        return mapView
+        MKMapView()
     }
     
-    func updateUIView(_ uiView: MKMapView, context: Context) {}
+    func updateUIView(_ uiView: MKMapView, context: Context) {
+        let newAnnotations = studentLocationData.allStudentLocation.map { StudentLocationAnnotation(studentLocation: $0) }
+        uiView.removeAnnotations(uiView.annotations)
+        uiView.addAnnotations(newAnnotations)
+    }
 }

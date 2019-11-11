@@ -7,13 +7,10 @@
 //
 
 import SwiftUI
-import MapKit
 
 struct LoginView: View {
     
     // MARK: - Properties
-    
-    @EnvironmentObject private var data: Data
     
     @State private var email = ""
     @State private var password = ""
@@ -43,9 +40,9 @@ struct LoginView: View {
                         .padding(.horizontal)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     
-                    NavigationLink(destination: StudentLocationView().environmentObject(self.data), tag: 1, selection: self.$selection) {
+                    NavigationLink(destination: StudentLocationView().environmentObject(StudentLocationData()), tag: 1, selection: self.$selection) {
                         Button("LOG IN") {
-                            UdacityAPI.addSession(email: self.email, password: self.password, completionHandler: self.addSessionCompletionHandler(dataJSON:))
+                            UdacityAPI.addSession(email: self.email, password: self.password, completionHandler: self.logIn(dataJSON:))
                         }
                     }
                     .padding(.vertical, 5)
@@ -74,9 +71,9 @@ struct LoginView: View {
         }
     }
     
-    // MARK: - Methods
+    // MARK: - Method
     
-    private func addSessionCompletionHandler(dataJSON: [String: Any]?) {
+    private func logIn(dataJSON: [String: Any]?) {
         guard let dataJSON = dataJSON else {
             isShowingInternalErrorAlert = true
             
@@ -89,40 +86,11 @@ struct LoginView: View {
             return
         }
         
-        UdacityAPI.getAllStudentLocation(completionHandler: setData(dataCodable:))
-    }
-    
-    private func setData(dataCodable: Results?) {
-        guard let dataCodable = dataCodable else {
-            isShowingInternalErrorAlert = true
-                   
-            return
-        }
-        
-        data.allStudentLocation = dataCodable.results
-        setAllPointAnnotation(allStudentLocation: data.allStudentLocation)
-    }
-    
-    private func setAllPointAnnotation(allStudentLocation: [StudentLocation]) {
-        for studentLocation in allStudentLocation {
-            let firstName = studentLocation.firstName
-            let lastName = studentLocation.lastName
-            let mediaURL = studentLocation.mediaURL
-            
-            let latitude = CLLocationDegrees(studentLocation.latitude)
-            let longitude = CLLocationDegrees(studentLocation.longitude)
-            let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-            
-            let pointAnnotation = MKPointAnnotation()
-            pointAnnotation.title = "\(firstName) \(lastName)"
-            pointAnnotation.subtitle = mediaURL
-            pointAnnotation.coordinate = coordinate
-            
-            data.allPointAnnotation.append(pointAnnotation)
-        }
+        email = ""
+        password = ""
         
         // LOG IN
-        self.selection = 1
+        selection = 1
     }
 }
 

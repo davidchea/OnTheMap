@@ -12,8 +12,11 @@ struct StudentLocationView: View {
     
     // MARK: - Properties
     
-    @EnvironmentObject private var data: Data
+    @EnvironmentObject private var studentLocationData: StudentLocationData
     
+    @Environment(\.presentationMode) var presentationMode
+    
+    @State private var isShowingInternalErrorAlert = false
     @State private var isShowingAddStudentLocationView = false
     
     // MARK: - Views
@@ -22,13 +25,13 @@ struct StudentLocationView: View {
         NavigationView {
             TabView {
                 MapView()
-                    .environmentObject(data)
+                    .environmentObject(studentLocationData)
                     .tabItem {
                         Image(systemName: "map.fill")
                     }
                 
                 List {
-                    ForEach(data.allStudentLocation) { studentLocation in
+                    ForEach(studentLocationData.allStudentLocation) { studentLocation in
                         StudentLocationRow(studentLocation: studentLocation)
                     }
                 }
@@ -47,14 +50,22 @@ struct StudentLocationView: View {
                     }
             )
         }
+        .onAppear {
+            UdacityAPI.getAllStudentLocation(completionHandler: self.setAllStudentLocation(dataCodable:))
+        }
+        .alert(isPresented: $isShowingInternalErrorAlert) {
+            Alert(title: Text("Internal error"), message: Text("An error occurred, please try again later."), dismissButton: .default(Text("OK")))
+        }
     }
     
     var logOutButton: some View {
-        Button("Log Out") {}
+        Button("Log Out") {
+            self.presentationMode.wrappedValue.dismiss()
+        }
     }
     
     var refreshButton: some View {
-        Button(action: {}) {
+        Button(action: { UdacityAPI.getAllStudentLocation(completionHandler: self.setAllStudentLocation(dataCodable:)) }) {
             Image(systemName: "arrow.clockwise")
                 .imageScale(.large)
         }
@@ -68,6 +79,18 @@ struct StudentLocationView: View {
         .sheet(isPresented: $isShowingAddStudentLocationView) {
             AddStudentLocationView()
         }
+    }
+    
+    // MARK: - Method
+    
+    private func setAllStudentLocation(dataCodable: Results?) {
+        guard let dataCodable = dataCodable else {
+            isShowingInternalErrorAlert = true
+                   
+            return
+        }
+        
+        studentLocationData.allStudentLocation = dataCodable.results
     }
 }
 
