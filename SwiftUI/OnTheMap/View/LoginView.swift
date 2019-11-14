@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import SwiftyJSON
 
 struct LoginView: View {
     
@@ -42,7 +43,7 @@ struct LoginView: View {
                     
                     NavigationLink(destination: StudentLocationView().environmentObject(StudentLocationData()), tag: 1, selection: self.$selection) {
                         Button("LOG IN") {
-                            UdacityAPI.addSession(email: self.email, password: self.password, completionHandler: self.logIn(dataJSON:))
+                            UdacityAPI.addSession(email: self.email, password: self.password, completionHandler: self.logIn(json:))
                         }
                     }
                     .padding(.vertical, 5)
@@ -73,14 +74,14 @@ struct LoginView: View {
     
     // MARK: - Method
     
-    private func logIn(dataJSON: [String: Any]?) {
-        guard let dataJSON = dataJSON else {
+    private func logIn(json: JSON) {
+        guard json["error"] != "Internal error" else {
             isShowingInternalErrorAlert = true
             
             return
         }
         
-        guard dataJSON["error"] == nil else {
+        guard json["error"].string == nil else {
             isShowingLoginFailedAlert = true
             
             return

@@ -1,5 +1,5 @@
 //
-//  MapView.swift
+//  StudentLocationMapView.swift
 //  OnTheMap
 //
 //  Created by David Chea on 09/11/2019.
@@ -9,7 +9,7 @@
 import SwiftUI
 import MapKit
 
-struct MapView: UIViewRepresentable {
+struct StudentLocationMapView: UIViewRepresentable {
     
     // MARK: - Property
     

@@ -37,7 +37,9 @@ struct AddStudentLocationView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     
                     NavigationLink(destination: ConfirmView(), tag: 1, selection: self.$selection) {
-                        Button("FIND LOCATION") {}
+                        Button("FIND LOCATION") {
+                            self.selection = 1
+                        }
                     }
                     .padding(.vertical, 5)
                     .frame(width: geometryProxy.size.width - 30)

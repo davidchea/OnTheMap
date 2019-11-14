@@ -24,7 +24,7 @@ struct StudentLocationView: View {
     var body: some View {
         NavigationView {
             TabView {
-                MapView()
+                StudentLocationMapView()
                     .environmentObject(studentLocationData)
                     .tabItem {
                         Image(systemName: "map.fill")
@@ -51,7 +51,7 @@ struct StudentLocationView: View {
             )
         }
         .onAppear {
-            UdacityAPI.getAllStudentLocation(completionHandler: self.setAllStudentLocation(dataCodable:))
+            UdacityAPI.getAllStudentLocation(completionHandler: self.setAllStudentLocation(json:))
         }
         .alert(isPresented: $isShowingInternalErrorAlert) {
             Alert(title: Text("Internal error"), message: Text("An error occurred, please try again later."), dismissButton: .default(Text("OK")))
@@ -65,16 +65,14 @@ struct StudentLocationView: View {
     }
     
     var refreshButton: some View {
-        Button(action: { UdacityAPI.getAllStudentLocation(completionHandler: self.setAllStudentLocation(dataCodable:)) }) {
+        Button(action: { UdacityAPI.getAllStudentLocation(completionHandler: self.setAllStudentLocation(json:)) }) {
             Image(systemName: "arrow.clockwise")
-                .imageScale(.large)
         }
     }
     
     var addButton: some View {
         Button(action: { self.isShowingAddStudentLocationView.toggle() }) {
             Image(systemName: "plus")
-                .imageScale(.large)
         }
         .sheet(isPresented: $isShowingAddStudentLocationView) {
             AddStudentLocationView()
@@ -83,14 +81,14 @@ struct StudentLocationView: View {
     
     // MARK: - Method
     
-    private func setAllStudentLocation(dataCodable: Results?) {
-        guard let dataCodable = dataCodable else {
+    private func setAllStudentLocation(json: Results?) {
+        guard let json = json else {
             isShowingInternalErrorAlert = true
                    
             return
         }
         
-        studentLocationData.allStudentLocation = dataCodable.results
+        studentLocationData.allStudentLocation = json.results
     }
 }
 

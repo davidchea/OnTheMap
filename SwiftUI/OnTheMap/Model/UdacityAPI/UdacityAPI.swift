@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 class UdacityAPI {
     
@@ -37,7 +38,7 @@ class UdacityAPI {
         - password: The password.
         - completionHandler: The closure in which the response will be handled.
      */
-    static func addSession(email: String, password: String, completionHandler: @escaping ([String: Any]?) -> Void) {
+    static func addSession(email: String, password: String, completionHandler: @escaping (JSON) -> Void) {
         var request = URLRequest(url: Endpoint.session.url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
@@ -52,7 +53,7 @@ class UdacityAPI {
             guard error == nil else {
                 DispatchQueue.main.async {
                     print(error!.localizedDescription)
-                    completionHandler(nil)
+                    completionHandler(JSON(["error": "Internal error"]))
                 }
              
                 return
@@ -60,8 +61,8 @@ class UdacityAPI {
             
             // The first five characters are used for security purpose and we need to skip them.
             let newData = data!.subdata(in: 5..<data!.count)
-            let dataJSON = try! JSONSerialization.jsonObject(with: newData, options: []) as! [String: Any]
-            DispatchQueue.main.async { completionHandler(dataJSON) }
+            let json = try! JSON(data: newData)
+            DispatchQueue.main.async { completionHandler(json) }
         }
         task.resume()
     }
@@ -84,8 +85,8 @@ class UdacityAPI {
                 return
             }
             
-            let dataCodable = try! JSONDecoder().decode(Results.self, from: data!)
-            DispatchQueue.main.async { completionHandler(dataCodable) }
+            let json = try! JSONDecoder().decode(Results.self, from: data!)
+            DispatchQueue.main.async { completionHandler(json) }
         }
         task.resume()
     }
@@ -117,8 +118,8 @@ class UdacityAPI {
             createdAt: "",
             updatedAt: ""
         )
-        let studentLocationJSON = try! JSONEncoder().encode(studentLocation)
-        request.httpBody = studentLocationJSON
+        let json = try! JSONEncoder().encode(studentLocation)
+        request.httpBody = json
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
