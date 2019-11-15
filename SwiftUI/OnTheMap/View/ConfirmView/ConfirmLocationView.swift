@@ -1,5 +1,5 @@
 //
-//  ConfirmView.swift
+//  ConfirmLocationView.swift
 //  OnTheMap
 //
 //  Created by David Chea on 10/11/2019.
@@ -7,21 +7,27 @@
 //
 
 import SwiftUI
+import MapKit
 
-struct ConfirmView: View {
+struct ConfirmLocationView: View {
+    
+    // MARK: - Properties
+    
+    let locality: String!
+    let coordinate: CLLocationCoordinate2D!
     
     // MARK: - View
     
     var body: some View {
         GeometryReader { geometryProxy in
             ZStack {
-                FindLocationMapView()
+                ConfirmLocationMapView(locality: self.locality, coordinate: self.coordinate)
                     .edgesIgnoringSafeArea(.bottom)
                 
                 VStack {
                     Spacer()
 
-                    Button("FINISH") {}
+                    Button("CONFIRM LOCATION") {}
                     .padding(.vertical, 5)
                     .frame(width: geometryProxy.size.width - 30)
                     .foregroundColor(.white)
@@ -31,12 +37,5 @@ struct ConfirmView: View {
                 .padding(.bottom, 30)
             }
         }
-    }
-}
-
-struct ConfirmView_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        ConfirmView()
     }
 }

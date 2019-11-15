@@ -13,13 +13,12 @@ struct LoginView: View {
     
     // MARK: - Properties
     
+    @EnvironmentObject private var appData: AppData
+    
     @State private var email = ""
     @State private var password = ""
     
     @State private var selection: Int!
-    
-    @State private var isShowingInternalErrorAlert = false
-    @State private var isShowingLoginFailedAlert = false
     
     // MARK: - View
     
@@ -41,7 +40,7 @@ struct LoginView: View {
                         .padding(.horizontal)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     
-                    NavigationLink(destination: StudentLocationView().environmentObject(StudentLocationData()), tag: 1, selection: self.$selection) {
+                    NavigationLink(destination: StudentLocationView().environmentObject(self.appData), tag: 0, selection: self.$selection) {
                         Button("LOG IN") {
                             UdacityAPI.addSession(email: self.email, password: self.password, completionHandler: self.logIn(json:))
                         }
@@ -64,25 +63,38 @@ struct LoginView: View {
                 .navigationBarHidden(true)
             }
         }
-        .alert(isPresented: $isShowingInternalErrorAlert) {
-            Alert(title: Text("Internal error"), message: Text("An error occurred, please try again later."), dismissButton: .default(Text("OK")))
-        }
-        .alert(isPresented: $isShowingLoginFailedAlert) {
-            Alert(title: Text("Login failed"), message: Text("Incorrect email and/or password."), dismissButton: .default(Text("OK")))
+        .alert(isPresented: $appData.isShowingAlert) {
+            switch appData.alertType {
+            case .emptyField:
+                return Alert(title: Text("Empty field"), message: Text("Please fill email and password fields."), dismissButton: .default(Text("OK")))
+            case .internalError:
+                return Alert(title: Text("Internal error"), message: Text("An error occurred, please try again later."), dismissButton: .default(Text("OK")))
+            case .wrongEntry:
+                return Alert(title: Text("Login failed"), message: Text("Incorrect email and/or password."), dismissButton: .default(Text("OK")))
+            }
         }
     }
     
     // MARK: - Method
     
     private func logIn(json: JSON) {
+        guard !email.isEmpty, !password.isEmpty else {
+            appData.isShowingAlert = true
+            appData.alertType = .emptyField
+            
+            return
+        }
+        
         guard json["error"] != "Internal error" else {
-            isShowingInternalErrorAlert = true
+            appData.isShowingAlert = true
+            appData.alertType = .internalError
             
             return
         }
         
         guard json["error"].string == nil else {
-            isShowingLoginFailedAlert = true
+            appData.isShowingAlert = true
+            appData.alertType = .wrongEntry
             
             return
         }
@@ -91,7 +103,7 @@ struct LoginView: View {
         password = ""
         
         // LOG IN
-        selection = 1
+        selection = 0
     }
 }
 

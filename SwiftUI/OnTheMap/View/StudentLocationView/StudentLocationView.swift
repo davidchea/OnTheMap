@@ -12,11 +12,10 @@ struct StudentLocationView: View {
     
     // MARK: - Properties
     
-    @EnvironmentObject private var studentLocationData: StudentLocationData
+    @EnvironmentObject private var appData: AppData
     
     @Environment(\.presentationMode) var presentationMode
     
-    @State private var isShowingInternalErrorAlert = false
     @State private var isShowingAddStudentLocationView = false
     
     // MARK: - Views
@@ -25,13 +24,13 @@ struct StudentLocationView: View {
         NavigationView {
             TabView {
                 StudentLocationMapView()
-                    .environmentObject(studentLocationData)
+                    .environmentObject(appData)
                     .tabItem {
                         Image(systemName: "map.fill")
                     }
                 
                 List {
-                    ForEach(studentLocationData.allStudentLocation) { studentLocation in
+                    ForEach(appData.allStudentLocation) { studentLocation in
                         StudentLocationRow(studentLocation: studentLocation)
                     }
                 }
@@ -42,7 +41,8 @@ struct StudentLocationView: View {
             .padding(.top)
             .navigationBarTitle("Latest Students")
             .navigationBarItems(
-                leading: logOutButton,
+                leading:
+                    logOutButton,
                 trailing:
                     HStack(spacing: 30) {
                         refreshButton
@@ -53,7 +53,7 @@ struct StudentLocationView: View {
         .onAppear {
             UdacityAPI.getAllStudentLocation(completionHandler: self.setAllStudentLocation(json:))
         }
-        .alert(isPresented: $isShowingInternalErrorAlert) {
+        .alert(isPresented: $appData.isShowingAlert) {
             Alert(title: Text("Internal error"), message: Text("An error occurred, please try again later."), dismissButton: .default(Text("OK")))
         }
     }
@@ -75,7 +75,7 @@ struct StudentLocationView: View {
             Image(systemName: "plus")
         }
         .sheet(isPresented: $isShowingAddStudentLocationView) {
-            AddStudentLocationView()
+            AddStudentLocationView().environmentObject(self.appData)
         }
     }
     
@@ -83,12 +83,12 @@ struct StudentLocationView: View {
     
     private func setAllStudentLocation(json: Results?) {
         guard let json = json else {
-            isShowingInternalErrorAlert = true
+            appData.isShowingAlert = true
                    
             return
         }
         
-        studentLocationData.allStudentLocation = json.results
+        appData.allStudentLocation = json.results
     }
 }
 

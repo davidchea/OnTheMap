@@ -7,13 +7,19 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct AddStudentLocationView: View {
     
     // MARK: - Properties
     
+    @EnvironmentObject private var appData: AppData
+    
     @State private var location = ""
     @State private var url = ""
+    
+    @State private var locality: String!
+    @State private var coordinate: CLLocationCoordinate2D!
     
     @State private var selection: Int!
     
@@ -36,9 +42,9 @@ struct AddStudentLocationView: View {
                         .padding(.horizontal)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     
-                    NavigationLink(destination: ConfirmView(), tag: 1, selection: self.$selection) {
+                    NavigationLink(destination: ConfirmLocationView(locality: self.locality, coordinate: self.coordinate), tag: 0, selection: self.$selection) {
                         Button("FIND LOCATION") {
-                            self.selection = 1
+                            self.findLocation()
                         }
                     }
                     .padding(.vertical, 5)
@@ -53,6 +59,53 @@ struct AddStudentLocationView: View {
                 .navigationBarHidden(true)
             }
         }
+        .alert(isPresented: $appData.isShowingAlert) {
+            switch appData.alertType {
+            case .emptyField:
+                return Alert(title: Text("Empty field"), message: Text("Please fill email and password fields."), dismissButton: .default(Text("OK")))
+            case .internalError:
+                return Alert(title: Text("Internal error"), message: Text("An error occurred, please try again later."), dismissButton: .default(Text("OK")))
+            case .wrongEntry:
+                return Alert(title: Text("Failed to find location"), message: Text("Please enter a correct location."), dismissButton: .default(Text("OK")))
+            }
+        }
+    }
+    
+    // MARK: - Methods
+    
+    private func findLocation() {
+        guard !location.isEmpty, !url.isEmpty else {
+            appData.isShowingAlert = true
+            appData.alertType = .emptyField
+            
+            return
+        }
+        
+        CLGeocoder().geocodeAddressString(location, completionHandler: confirmLocation(placemarks:error:))
+    }
+    
+    private func confirmLocation(placemarks: [CLPlacemark]?, error: Error?) {
+        guard error == nil else {
+            let errorCode = (error as NSError?)!.code
+            if errorCode == 8 {
+                appData.isShowingAlert = true
+                appData.alertType = .wrongEntry
+            } else {
+                appData.isShowingAlert = true
+                appData.alertType = .internalError
+                
+                print(error!.localizedDescription)
+            }
+            
+            return
+        }
+        
+        let placemark = placemarks!.first!
+        locality = placemark.locality!
+        coordinate = placemark.location!.coordinate
+        
+        // FIND LOCATION
+        selection = 0
     }
 }
 
