@@ -14,7 +14,7 @@ struct StudentLocationView: View {
     
     @EnvironmentObject private var appData: AppData
     
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.presentationMode) private var presentationMode
     
     @State private var isShowingAddStudentLocationView = false
     

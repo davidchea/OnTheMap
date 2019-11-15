@@ -42,7 +42,11 @@ struct AddStudentLocationView: View {
                         .padding(.horizontal)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     
-                    NavigationLink(destination: ConfirmLocationView(locality: self.locality, coordinate: self.coordinate), tag: 0, selection: self.$selection) {
+                    NavigationLink(
+                        destination: ConfirmLocationView(locality: self.locality, coordinate: self.coordinate, url: self.url).environmentObject(self.appData),
+                        tag: 0,
+                        selection: self.$selection
+                    ) {
                         Button("FIND LOCATION") {
                             self.findLocation()
                         }

@@ -13,8 +13,14 @@ struct ConfirmLocationView: View {
     
     // MARK: - Properties
     
+    @EnvironmentObject private var appData: AppData
+    
+    @Environment(\.presentationMode) private var presentationMode
+    
     let locality: String!
     let coordinate: CLLocationCoordinate2D!
+    
+    let url: String!
     
     // MARK: - View
     
@@ -27,7 +33,15 @@ struct ConfirmLocationView: View {
                 VStack {
                     Spacer()
 
-                    Button("CONFIRM LOCATION") {}
+                    Button("CONFIRM LOCATION") {
+                        UdacityAPI.addStudentLocation(
+                            mapString: self.locality,
+                            mediaURL: self.url,
+                            latitude: self.coordinate!.latitude,
+                            longitude: self.coordinate!.longitude,
+                            completionHandler: self.dismissView(isPassed:)
+                        )
+                    }
                     .padding(.vertical, 5)
                     .frame(width: geometryProxy.size.width - 30)
                     .foregroundColor(.white)
@@ -37,5 +51,20 @@ struct ConfirmLocationView: View {
                 .padding(.bottom, 30)
             }
         }
+        .alert(isPresented: $appData.isShowingAlert) {
+            Alert(title: Text("Internal error"), message: Text("An error occurred, please try again later."), dismissButton: .default(Text("OK")))
+        }
+    }
+    
+    // MARK: - Method
+    
+    private func dismissView(isPassed: Bool) {
+        guard isPassed else {
+            appData.isShowingAlert = true
+            
+            return
+        }
+        
+        presentationMode.wrappedValue.dismiss()
     }
 }
