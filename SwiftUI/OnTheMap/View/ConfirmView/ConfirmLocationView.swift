@@ -56,7 +56,7 @@ struct ConfirmLocationView: View {
         }
     }
     
-    // MARK: - Method
+    // MARK: - Methods
     
     private func dismissView(isPassed: Bool) {
         guard isPassed else {
@@ -65,6 +65,17 @@ struct ConfirmLocationView: View {
             return
         }
         
+        UdacityAPI.getAllStudentLocation(completionHandler: self.setAllStudentLocation(json:))
         presentationMode.wrappedValue.dismiss()
+    }
+    
+    private func setAllStudentLocation(json: Results?) {
+        guard let json = json else {
+            appData.isShowingAlert = true
+                   
+            return
+        }
+        
+        appData.allStudentLocation = json.results
     }
 }
