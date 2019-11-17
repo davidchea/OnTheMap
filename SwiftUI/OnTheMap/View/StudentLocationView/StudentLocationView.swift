@@ -31,7 +31,7 @@ struct StudentLocationView: View {
                 
                 List {
                     ForEach(appData.allStudentLocation) { studentLocation in
-                        StudentLocationRow(studentLocation: studentLocation)
+                        StudentLocationRow(studentLocation: studentLocation).environmentObject(self.appData)
                     }
                 }
                 .tabItem {
