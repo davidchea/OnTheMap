@@ -12,7 +12,7 @@ After viewing the information posted by other students, a user can post their ow
 
 <p float="left">
     <img src="./README-IMAGES/screenshot-map.jpg" width="289" height="518">
-    <img src="./README-IMAGES/screenshot-table.jpg" width="289" height="518">
+    <img src="./README-IMAGES/screenshot-list.jpg" width="289" height="518">
     <img src="./README-IMAGES/screenshot-add.jpg" width="289" height="518">
     <img src="./README-IMAGES/screenshot-confirm.jpg" width="289" height="518">
 </p>
