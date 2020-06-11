@@ -6,8 +6,6 @@ First, the user logs in to the app using their Udacity username and password. Af
 
 After viewing the information posted by other students, a user can post their own location and link. The locations are specified with a string and forward geocoded. They can be as specific as a full street address or as generic as "Costa Rica" or "Seattle, WA".
 
-This project is part of the [Udacity iOS Developer Nanodegree](https://www.udacity.com/course/ios-developer-nanodegree--nd003).
-
 ## Screenshots
 
 <p float="left" align="center">
